@@ -11,8 +11,8 @@ public class Gate {
      *
      * For state values, I decided to use Java's Boolean values: TRUE and FALSE.
      *
-     * The Gate class implements the getters/setters that future gate classes can use. The only method future gate
-     * classes should implement is `setOutput()`, which follows logic unique to the gate.
+     * The Gate class implements the getters/setters that future gate classes can use. Each gate class that derives from
+     * this class should implicitly/internally calculate its output.
      */
 
     public ArrayList<Boolean> input;
