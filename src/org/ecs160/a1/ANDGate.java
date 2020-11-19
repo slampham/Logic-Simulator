@@ -2,9 +2,7 @@ package org.ecs160.a1;
 import java.util.ArrayList;
 
 public class ANDGate extends Gate{
-    public ANDGate (ArrayList<Boolean> input, Boolean output) {
-        super(input, output);
+    public ANDGate (ArrayList<Boolean> input) {
+        super(input, input.get(0) && input.get(1));
     }
-
-    public void setOutput () {output = input.get(0) && input.get(1);}
 }
