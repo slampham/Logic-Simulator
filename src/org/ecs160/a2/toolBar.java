@@ -30,14 +30,14 @@ public class toolBar extends Container {
 //    final Button xorGate = new Button(theme.getImage("xor.png"));
 
     private String[] buttonNames =
-            { "AND Gate", "NAND Gate", "NOR Gate", "XNOR Gate",
+            { "Toggle", "LED", "Wire", "AND Gate", "NAND Gate", "NOR Gate", "XNOR Gate",
                     "OR Gate", "NOT Gate", "XOR Gate", };
 
     private Hashtable<String, CustomizedNav> buttons = new Hashtable<String, CustomizedNav>();
 
     public toolBar() {
         super();
-        this.setLayout(new GridLayout(1, 7));
+        this.setLayout(new GridLayout(1, 10));
         this.getAllStyles().setBgColor(0x686bb3);//0xF4ECF7); // background is pinkish
         this.getAllStyles().setBgTransparency(255);
 //        this.add(andGate); this.add(nandGate); this.add(norGate);
