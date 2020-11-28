@@ -25,6 +25,7 @@ public class Gate implements Component {
 
     public List<Boolean> getInputs() {return inputs;}
 
+    @Override
     public void setInputs(List<Boolean> inputs) {this.inputs = inputs;}
 
     public Boolean output() {return output;}
