@@ -2,7 +2,6 @@ package org.ecs160.a2;
 import java.util.List;
 
 public class Gate implements Component {
-
     /**
      * The Gate class is a template for the logic gates we want to implement. It uses an ArrayList to store inputs.
      * We use an ArrayList to keep input agnostic. That is, most logic gates use 2 inputs with the exception
@@ -23,10 +22,11 @@ public class Gate implements Component {
         this.output = output;
     }
 
-    public List<Boolean> getInputs() {return inputs;}
+    public void setInputs(List<Boolean> inputs) {
+        this.inputs = inputs;
+    }
 
-    @Override
-    public void setInputs(List<Boolean> inputs) {this.inputs = inputs;}
+    public List<Boolean> getInputs() {return inputs;}
 
     public Boolean output() {return output;}
 }

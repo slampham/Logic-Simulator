@@ -25,7 +25,12 @@ public class MobiLogic {
                 inputs.add(input_comp.output());
             }
 
-            entry.getKey().setInputs(inputs);
+            if (entry instanceof Gate) { // FIXME: bad coding practice, but not sure how to refactor this
+                ((Gate) entry.getKey()).setInputs(inputs);
+            }
+            else if (entry instanceof LED) {
+                ((LED) entry.getKey()).setInput(inputs.get(0));
+            }
         }
     }
 
