@@ -1,13 +1,13 @@
 package org.ecs160.a2;
 
-public class Toggle {
-  public Boolean output = false;
+import com.codename1.ui.CheckBox;
 
-  public void toggle() {
-    output = !output;
-  }
+public class Toggle extends CheckBox implements Component {
+    public void toggle() {
+        setSelected(!isSelected());
+    }
 
-  public Boolean output() {
-    return output;
-  }
+    public Boolean output() {
+        return isSelected();
+    }
 }
