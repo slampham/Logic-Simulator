@@ -21,6 +21,7 @@ public class AppMain {
     private Form current;
     private Resources theme;
     private Resources gates;
+    private MobiLogic app;
 
     public void init(Object context) {
         // use two network threads instead of one
@@ -56,75 +57,9 @@ public class AppMain {
             return;
         }
 
-        Form hi = new Form("Logic Simulator", BoxLayout.y());
-
-        // retrieving gate images from the theme.res
-        /*final Button andGate = new Button(gates.getImage("and.png"));
-        final Button nandGate = new Button(gates.getImage("nand.png"));
-        final Button norGate = new Button(gates.getImage("nor.png"));
-
-        final Button xnorGate = new Button(gates.getImage("xnor.png"));
-        final Button orGate = new Button(gates.getImage("or.png"));
-        final Button notGate = new Button(gates.getImage("not.png"));
-        final Button xorGate = new Button(gates.getImage("xor.png"));*/
-
-        // buttons only:
-//        final Button andGate = new Button("AND Gate");
-//        final Button nandGate = new Button("NAND Gate");
-//        final Button norGate = new Button("NOR Gate");
-//
-//        final Button xnorGate = new Button("XNOR Gate");
-//        final Button orGate = new Button("OR Gate");
-//        final Button notGate = new Button("NOT Gate");
-//        final Button xorGate = new Button("XOR Gate");
-//
-//        final Button led = new Button("LED");
-//        final Button toggle = new Button("Toggle");
-//
-//        final Button trash = new Button("Trash");
-//        final Button clear = new Button("Clear");
-
-        // allow gates to be draggable
-//        andGate.setDraggable(true);
-//        nandGate.setDraggable(true);
-//        norGate.setDraggable(true);
-//        xnorGate.setDraggable(true);
-//
-//        orGate.setDraggable(true);
-//        notGate.setDraggable(true);
-//        xorGate.setDraggable(true);
-
-        // remove default button styling
-//        andGate.setUIID("Label"); nandGate.setUIID("Label"); norGate.setUIID("Label");
-//        xnorGate.setUIID("Label"); orGate.setUIID("Label"); notGate.setUIID("Label");
-//        xorGate.setUIID("Label");
-
-        // creation of tool bar with gates
-//        Container toolBar = new Container();
-//        toolBar.setLayout(new GridLayout(1, 11));
-//        toolBar.add(trash); toolBar.add(clear); toolBar.add(led); toolBar.add(toggle); toolBar.add(andGate); toolBar.add(nandGate); toolBar.add(norGate);
-//        toolBar.add(xnorGate); toolBar.add(orGate); toolBar.add(notGate);
-//        toolBar.add(xorGate);
-//        toolBar.setScrollableX(true);
-
-        //hi.add(new Label("Hi World"));
-
-        toolBar tooBar = new toolBar();
-        tooBar.setScrollableX(true);
-        workSpace workSpc = new workSpace();
-        workSpc.setScrollableX(false);
-
-        menu main_menu = new menu();
-
-
-        // form for the workspace, gates, and title
-        //appLogic logic = new appLogic(main_menu, workSpc, tooBar);
-        formApp app = new formApp(main_menu, workSpc, tooBar);
-        workSpc.setDropTarget(true);
-
-        app.show();
-
-        //hi.show();
+        app = new MobiLogic();
+        app.initUIComponents();
+        app.initAppLogic();
     }
 
     public void stop() {

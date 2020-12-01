@@ -1,11 +1,88 @@
 package org.ecs160.a2;
 
+import com.codename1.ui.events.ActionEvent;
+import com.codename1.ui.events.ActionListener;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class MobiLogic {
+    private toolBar tBar;
+    private workSpace wSpace;
+    private menu mainMenu;
+    private formApp app;
+
+    private String userSelectedGate;
+
+    public MobiLogic() {
+        tBar = new toolBar();
+        tBar.setScrollableX(true);
+        wSpace = new workSpace();
+        wSpace.setScrollableX(false);
+        mainMenu = new menu();
+        app = new formApp(mainMenu, wSpace, tBar);
+
+        userSelectedGate = "None";
+    }
+
+    public void initUIComponents() {
+        app.show();
+    }
+
+    public void initAppLogic() {
+        attachActionListenersToGrid();
+        userSelectsGateFromNavBarEvent();
+    }
+
+    private void userSelectsGateFromNavBarEvent() {
+        userSelectsGateFromNavBarEvent(tBar.getButton("AND Gate"));
+        userSelectsGateFromNavBarEvent(tBar.getButton("NAND Gate"));
+        userSelectsGateFromNavBarEvent(tBar.getButton("NOR Gate"));
+        userSelectsGateFromNavBarEvent(tBar.getButton("NOT Gate"));
+        userSelectsGateFromNavBarEvent(tBar.getButton("OR Gate"));
+        userSelectsGateFromNavBarEvent(tBar.getButton("XNOR Gate"));
+        userSelectsGateFromNavBarEvent(tBar.getButton("XOR Gate"));
+    }
+
+    private void userSelectsGateFromNavBarEvent(CustomizedNav button) {
+        button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent evt) {
+                userSelectedGate = button.getName();
+                mainMenu.updateGateSelected(userSelectedGate);
+            }
+        });
+    }
+
+    private void attachActionListenersToGrid () {
+        for (String key: wSpace.getWorkSpace().keySet()) {
+            wSpace.getGridCell(key).addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent evt) {
+                    if (!userSelectedGate.equals("None")) {
+                        wSpace.getGridCell(key).addComponent(userSelectedGate);
+                        userSelectedGate = "None";
+                    }
+                }
+            });
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     Map<Component, List<Component>> connections = new HashMap<>();
     /*** For each key (gate), the value (list) represents all the inputs into the key. For example:
      * A -----C

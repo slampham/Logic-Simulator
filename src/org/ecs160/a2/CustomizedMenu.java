@@ -17,28 +17,14 @@ public class CustomizedMenu extends Button {
     public CustomizedMenu(String txt) {
         super(txt);
         Stroke borderStroke = new Stroke(2, Stroke.CAP_SQUARE, Stroke.JOIN_MITER, 1);
-//        ArrayList<String> gateButtons = new ArrayList<String>(
-//                Arrays.asList("AND Gate", "NAND Gate", "NOR Gate", "XNOR Gate",
-//                        "OR Gate", "NOT Gate", "XOR Gate"));
-//        //text of buttons is white
 
         if (txt.equals("Gates Appear Here")) {
-            // int num button
             this.getAllStyles().setFgColor(0x000000);
             this.getAllStyles().setBgColor(0xffffff);
-         //   this.getAllStyles().setPadding(10,10,0,0);
         } else {
             this.getAllStyles().setFgColor(0xffffff);
             this.getAllStyles().setBgColor(0x000000);
         }
-
-//        if (gateButtons.contains(txt)) {
-//            this.getAllStyles().setBgColor(0x90b368);
-//        } else {
-//            // advanced button
-//            this.getAllStyles().setBgColor(0xffffff);
-//        }
-        // this.getAllStyles().setBgColor(0xffffff);
 
         this.getUnselectedStyle().setBorder(RoundRectBorder.create().
                 strokeColor(0).
@@ -47,8 +33,6 @@ public class CustomizedMenu extends Button {
 
 
         this.getAllStyles().setBgTransparency(255);
-        //    this.getAllStyles().setPadding(0,0,0,0);
         this.getAllStyles().setMargin(10, 10, 7,7);
-        //this.setSize(new Dimension(8,10));
     }
 }

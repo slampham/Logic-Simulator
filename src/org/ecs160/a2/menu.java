@@ -13,8 +13,6 @@ import java.util.Hashtable;
 public class menu extends Container {
     private String[] topRow =
             { "CLEAR", "TRASH"};
-//    final Button clear = new Button("Clear Workspace");
-//    final Button delete = new Button("Delete");
 
     // Numeric is for number input
     TextField propagation_delay = new TextField("", "Prop. Delay", 5, TextArea.NUMERIC);
@@ -46,6 +44,9 @@ public class menu extends Container {
 
         this.add(top_row);
         this.add(bot_row);
-
     }
+
+    public void updateGateSelected(String s) {
+        buttons.get("Gates Appear Here").setText(s);
+    };
 }

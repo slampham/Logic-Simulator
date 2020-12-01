@@ -14,21 +14,12 @@ import java.util.Arrays;
 import static com.codename1.ui.CN.*;
 
 public class CustomizedNav extends Button {
+    private String buttonName;
+
     public CustomizedNav(String txt) {
         super(txt);
         Stroke borderStroke = new Stroke(2, Stroke.CAP_SQUARE, Stroke.JOIN_MITER, 1);
-//        ArrayList<String> gateButtons = new ArrayList<String>(
-//                Arrays.asList("AND Gate", "NAND Gate", "NOR Gate", "XNOR Gate",
-//                        "OR Gate", "NOT Gate", "XOR Gate"));
-//        //text of buttons is white
         this.getAllStyles().setFgColor(0xffffff);
-//        if (gateButtons.contains(txt)) {
-//            this.getAllStyles().setBgColor(0x90b368);
-//        } else {
-//            // advanced button
-//            this.getAllStyles().setBgColor(0xffffff);
-//        }
-        // this.getAllStyles().setBgColor(0xffffff);
 
         this.getUnselectedStyle().setBorder(RoundRectBorder.create().
                 strokeColor(0).
@@ -39,6 +30,9 @@ public class CustomizedNav extends Button {
         this.getAllStyles().setBgTransparency(255);
         this.getAllStyles().setPadding(2,2,2,2);
         this.getAllStyles().setMargin(10, 10, 7,7);
-        //this.setSize(new Dimension(8,10));
+
+        buttonName = txt;
     }
+
+    public String getName() { return buttonName; }
 }
