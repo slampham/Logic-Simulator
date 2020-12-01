@@ -18,7 +18,7 @@ public class MobiLogic {
      *
      * ***/
 
-    public void update() {
+    private void update() {
         List<Boolean> inputs = new ArrayList<>();
         for (Map.Entry<Component, List<Component>> entry : connections.entrySet()) {
             for (Component input_comp : entry.getValue()) {
@@ -34,12 +34,14 @@ public class MobiLogic {
         }
     }
 
-    public void connect(Component comp, Component input) {
+    public void connect(Component input, Component comp) {
+        /* Connect inputting component to component (ex: connect AND gate to OR gate in front) */
         connections.get(comp).add(input);
         update();
     }
 
-    public void disconnect(Component comp, Component input) {
+    public void disconnect(Component input, Component comp) {
+        /* Disconnect inputting component to component (ex: disconnect AND gate from OR gate in front) */
         connections.get(comp).remove(input);
         update();
     }
