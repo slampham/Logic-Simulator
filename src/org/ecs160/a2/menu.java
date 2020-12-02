@@ -17,7 +17,7 @@ public class menu extends Container {
     // Numeric is for number input
     TextField propagation_delay = new TextField("", "Prop. Delay", 5, TextArea.NUMERIC);
 
-    private String botRow = "Gates Appear Here";
+    private String botRow = "Gate Appears Here";
 
     private Hashtable<String, CustomizedMenu> buttons = new Hashtable<String, CustomizedMenu>();
     public menu() {
@@ -32,7 +32,7 @@ public class menu extends Container {
         buttons.put(topRow[0], bClr);
         top_row.add(bClr);
         CustomizedMenu bDel = new CustomizedMenu(topRow[1]);
-        buttons.put(topRow[0], bDel);
+        buttons.put(topRow[1], bDel);
         top_row.add(bDel);
 
         Container bot_row = new Container(new GridLayout(1, 2));
@@ -46,7 +46,6 @@ public class menu extends Container {
         this.add(bot_row);
     }
 
-    public void updateGateSelected(String s) {
-        buttons.get("Gates Appear Here").setText(s);
-    };
+    public void updateGateSelected(String s) { buttons.get("Gate Appears Here").setText(s); }
+    public CustomizedMenu getButton(String s) { return buttons.get(s); }
 }
