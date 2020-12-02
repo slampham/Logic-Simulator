@@ -12,7 +12,8 @@ import java.awt.*;
 import java.io.IOException;
 
 public class CustomizedButton extends Button {
-    private Boolean filled;
+    private String cellName;
+    private Boolean filled = false;
     private Resources r;
 
     public CustomizedButton(String txt) {
@@ -23,9 +24,14 @@ public class CustomizedButton extends Button {
         this.getAllStyles().setBgColor(0xffffff);
         this.getAllStyles().setBgTransparency(255);
         this.getAllStyles().setMargin(3, 3, 3,3);
-        filled = false;
         //this.setSize(new Dimension(8,10));
+
+        cellName = txt;
     }
+
+    public String getCell() { return cellName; }
+
+    public Boolean isFilled() { return filled; }
 
     public void addComponent(String s) {
         if (!filled) this.getAllStyles().setBgImage(chooseComponent(s));
