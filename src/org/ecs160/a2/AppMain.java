@@ -4,11 +4,9 @@ package org.ecs160.a2;
 import static com.codename1.ui.CN.*;
 
 import com.codename1.ui.*;
-import com.codename1.ui.layouts.GridLayout;
 import com.codename1.ui.plaf.UIManager;
 import com.codename1.ui.util.Resources;
 import com.codename1.io.Log;
-import com.codename1.ui.layouts.BoxLayout;
 
 import java.io.IOException;
 
@@ -21,7 +19,7 @@ public class AppMain {
     private Form current;
     private Resources theme;
     private Resources gates;
-    private MobiLogic app;
+    private MobiLogicApp app;
 
     public void init(Object context) {
         // use two network threads instead of one
@@ -57,7 +55,7 @@ public class AppMain {
             return;
         }
 
-        app = new MobiLogic();
+        app = new MobiLogicApp();
         app.initUIComponents();
         app.initAppLogic();
     }

@@ -39,7 +39,7 @@ public class MobiLogic {
         trashCanFunctionality();
     }
     private void attachActionListenersToGrid () {
-        for (String key: wSpace.getWorkSpace().keySet()) {
+        for (String key: wSpace.getWorkSpaceMap().keySet()) {
             wSpace.getGridCell(key).addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent evt) {
@@ -98,7 +98,7 @@ public class MobiLogic {
         mainMenu.getButton("CLEAR").addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent evt) {
-                for (String key: wSpace.getWorkSpace().keySet()) {
+                for (String key: wSpace.getWorkSpaceMap().keySet()) {
                     wSpace.getGridCell(key).removeComponent();
                 }
                 app.show(); // this line refreshes the screen
