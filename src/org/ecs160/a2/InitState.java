@@ -6,6 +6,7 @@ import com.codename1.ui.events.ActionListener;
 
 public class InitState implements MobiLogicState{
     private formApp app;
+    private int counter = 0;
     public InitState(formApp app) {
         this.app = app;
     }
@@ -15,23 +16,23 @@ public class InitState implements MobiLogicState{
         clearBoardFunctionality();
         userSelectsFromNavBarEvent(context);
         userSelectsFromGridEvent(context);
+        System.out.println("init state");
     }
 
     private void clearBoardFunctionality() {
         app.getMainMenu().getButton("CLEAR").addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent evt) {
+                app.getMainMenu().getButton("CLEAR").removeActionListener(this);
                 for (String key: app.getWorkSpace().getWorkSpaceMap().keySet()) {
                     app.getWorkSpace().getGridCell(key).removeComponent();
                 }
                 app.show(); // this line refreshes the screen
-                app.getMainMenu().getButton("CLEAR").removeActionListener(this);
             }
         });
     }
 
-    private void userSelectsFromNavBarEvent(MobiLogicContext context) {
-
+    public void userSelectsFromNavBarEvent(MobiLogicContext context) {
         for (String key: app.getToolBar().getToolBarMap().keySet()) {
             if (!key.equals("Wire") && !key.equals("Toggle") && !key.equals("LED")) // gates
                 userSelectsGateFromNavBarEvent(app.getToolBar().getButton(key), context);
@@ -45,11 +46,11 @@ public class InitState implements MobiLogicState{
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent evt) {
+                removeActionListeners();
                 String userSelectedComponent = button.getName();
                 app.getMainMenu().updateGateSelected(userSelectedComponent);
                 context.setState(new userSelectsFromNavBarState(app, userSelectedComponent));
                 context.getState().computeAction(context);
-                removeActionListeners();
             }
         });
     }
@@ -58,10 +59,10 @@ public class InitState implements MobiLogicState{
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent evt) {
+                removeActionListeners();
                 String userSelectedComponent = button.getName();
                 context.setState(new userSelectsPeripheralsFromNavBarState(app, userSelectedComponent));
                 context.getState().computeAction(context);
-                removeActionListeners();
             }
         });
     }
@@ -71,10 +72,10 @@ public class InitState implements MobiLogicState{
             app.getWorkSpace().getGridCell(key).addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent evt) {
+                    removeActionListeners();
                     String userSelectedGridCell = app.getWorkSpace().getGridCell(key).getCell();
                     context.setState(new userSelectsFromGridState(app, userSelectedGridCell));
                     context.getState().computeAction(context);
-                    removeActionListeners();
                 }
             });
         }
@@ -95,12 +96,14 @@ public class InitState implements MobiLogicState{
             if (!key.equals("Wire"))
                 removeActionListener(app.getToolBar().getButton(key));
         }
+        removeActionListener(app.getMainMenu().getButton("CLEAR"));
     }
 
     private void removeActionListener(Button button) {
         if (button != null && !button.getListeners().isEmpty()) {
-            ActionListener l = (ActionListener) button.getListeners().toArray()[0];
-            button.removeActionListener(l);
+            for (int i = 0; i < button.getListeners().toArray().length; i++) {
+                button.removeActionListener((ActionListener) button.getListeners().toArray()[i]);
+            }
         }
     }
 }
