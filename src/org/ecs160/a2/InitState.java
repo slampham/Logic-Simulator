@@ -19,16 +19,17 @@ public class InitState implements MobiLogicState{
     }
 
     private void clearBoardFunctionality() {
-        app.getMainMenu().getButton("CLEAR").addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent evt) {
-                app.getMainMenu().getButton("CLEAR").removeActionListener(this);
-                for (String key: app.getWorkSpace().getWorkSpaceMap().keySet()) {
-                    app.getWorkSpace().getGridCell(key).removeComponent();
+        if (app.getMainMenu().getButton("CLEAR").getListeners() == null) {
+            app.getMainMenu().getButton("CLEAR").addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent evt) {
+                    for (String key : app.getWorkSpace().getWorkSpaceMap().keySet()) {
+                        app.getWorkSpace().getGridCell(key).removeComponent();
+                    }
+                    app.show(); // this line refreshes the screen
                 }
-                app.show(); // this line refreshes the screen
-            }
-        });
+            });
+        }
     }
 
     public void userSelectsFromNavBarEvent(MobiLogicContext context) {
@@ -42,28 +43,32 @@ public class InitState implements MobiLogicState{
     }
 
     private void userSelectsGateFromNavBarEvent(CustomizedNav button, MobiLogicContext context) {
-        button.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent evt) {
-                removeActionListeners();
-                String userSelectedComponent = button.getName();
-                app.getMainMenu().updateGateSelected(userSelectedComponent);
-                context.setState(new userSelectsFromNavBarState(app, userSelectedComponent));
-                context.getState().computeAction(context);
-            }
-        });
+        if (button.getListeners() == null) {
+            button.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent evt) {
+                    removeActionListeners();
+                    String userSelectedComponent = button.getName();
+                    app.getMainMenu().updateGateSelected(userSelectedComponent);
+                    context.setState(new userSelectsFromNavBarState(app, userSelectedComponent));
+                    context.getState().computeAction(context);
+                }
+            });
+        }
     }
 
     private void userSelectsPeripheralsFromNavBarEvent(CustomizedNav button, MobiLogicContext context) {
-        button.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent evt) {
-                removeActionListeners();
-                String userSelectedComponent = button.getName();
-                context.setState(new userSelectsPeripheralsFromNavBarState(app, userSelectedComponent));
-                context.getState().computeAction(context);
-            }
-        });
+        if (button.getListeners() == null) {
+            button.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent evt) {
+                    removeActionListeners();
+                    String userSelectedComponent = button.getName();
+                    context.setState(new userSelectsPeripheralsFromNavBarState(app, userSelectedComponent));
+                    context.getState().computeAction(context);
+                }
+            });
+        }
     }
 
     private void userSelectsFromGridEvent(MobiLogicContext context) {
@@ -84,19 +89,6 @@ public class InitState implements MobiLogicState{
         for (String key: app.getWorkSpace().getWorkSpaceMap().keySet()) {
             removeActionListener(app.getWorkSpace().getGridCell(key));
         }
-
-        for (String key: app.getToolBar().getToolBarMap().keySet()) {
-            /* FIXME: the wire button currently has not been implemented (12/2/2020).
-                Once the wire state/button is implemented, then remove if-statement below.
-                There is a known bug: if wire button is pressed, nav-bar stuff sometimes won't work.
-                I say sometimes because the program loses track of state, and therefore action listeners
-                aren't being deleted correctly. Hence "sometimes."
-            */
-            if (!key.equals("Wire"))
-                removeActionListener(app.getToolBar().getButton(key));
-        }
-        removeActionListener(app.getMainMenu().getButton("CLEAR"));
-        // test
     }
 
     private void removeActionListener(Button button) {
