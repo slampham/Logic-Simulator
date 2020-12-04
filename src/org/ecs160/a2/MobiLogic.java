@@ -14,7 +14,9 @@ public class MobiLogic {
     private menu mainMenu;
     private formApp app;
 
-    private String userSelectedGate;
+    private String userSelectedNavbarGate = "None";
+    private String userSelectedNavbarPeripheral = "None";
+    private String userSelectedBoardComponent = "None";
 
     public MobiLogic() {
         tBar = new toolBar();
@@ -23,8 +25,6 @@ public class MobiLogic {
         wSpace.setScrollableX(false);
         mainMenu = new menu();
         app = new formApp(mainMenu, wSpace, tBar);
-
-        userSelectedGate = "None";
     }
 
     public void initUIComponents() {
@@ -34,6 +34,30 @@ public class MobiLogic {
     public void initAppLogic() {
         attachActionListenersToGrid();
         userSelectsGateFromNavBarEvent();
+        userSelectsPeripheralsFromNavBarEvents();
+        clearBoardFunctionality();
+        trashCanFunctionality();
+    }
+    private void attachActionListenersToGrid () {
+        for (String key: wSpace.getWorkSpaceMap().keySet()) {
+            wSpace.getGridCell(key).addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent evt) {
+                    if (!userSelectedNavbarGate.equals("None")) {
+                        wSpace.getGridCell(key).addComponent(userSelectedNavbarGate);
+                        userSelectedNavbarGate = "None";
+                        mainMenu.updateGateSelected("Gate Appears Here");
+                    }
+                    else if (!userSelectedNavbarPeripheral.equals("None")) {
+                        wSpace.getGridCell(key).addComponent(userSelectedNavbarPeripheral);
+                        userSelectedNavbarPeripheral = "None";
+                    }
+                    else if (wSpace.getGridCell(key).isFilled()) {
+                        userSelectedBoardComponent = wSpace.getGridCell(key).getCell();
+                    }
+                }
+            });
+        }
     }
 
     private void userSelectsGateFromNavBarEvent() {
@@ -50,27 +74,50 @@ public class MobiLogic {
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent evt) {
-                userSelectedGate = button.getName();
-                mainMenu.updateGateSelected(userSelectedGate);
+                userSelectedNavbarGate = button.getName();
+                mainMenu.updateGateSelected(userSelectedNavbarGate);
             }
         });
     }
 
-    private void attachActionListenersToGrid () {
-        for (String key: wSpace.getWorkSpace().keySet()) {
-            wSpace.getGridCell(key).addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent evt) {
-                    if (!userSelectedGate.equals("None")) {
-                        wSpace.getGridCell(key).addComponent(userSelectedGate);
-                        userSelectedGate = "None";
-                    }
-                }
-            });
-        }
+    private void userSelectsPeripheralsFromNavBarEvents() {
+        userSelectsPeripheralsFromNavBarEvents(tBar.getButton("Toggle"));
+        userSelectsPeripheralsFromNavBarEvents(tBar.getButton("LED"));
     }
 
+    private void userSelectsPeripheralsFromNavBarEvents(CustomizedNav button) {
+        button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent evt) {
+                userSelectedNavbarPeripheral = button.getName();
+            }
+        });
+    }
 
+    private void clearBoardFunctionality() {
+        mainMenu.getButton("CLEAR").addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent evt) {
+                for (String key: wSpace.getWorkSpaceMap().keySet()) {
+                    wSpace.getGridCell(key).removeComponent();
+                }
+                app.show(); // this line refreshes the screen
+            }
+        });
+    }
+    
+    private void trashCanFunctionality() {
+        mainMenu.getButton("TRASH").addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent evt) {
+                if (!userSelectedBoardComponent.equals("None")) {
+                    wSpace.getGridCell(userSelectedBoardComponent).removeComponent();
+                    userSelectedBoardComponent = "None";
+                    app.show();
+                }
+            }
+        });
+    }
 
 
 

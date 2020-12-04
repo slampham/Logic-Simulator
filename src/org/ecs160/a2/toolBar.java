@@ -39,5 +39,6 @@ public class toolBar extends Container {
         this.getAllStyles().setPadding(100,100,0,0);
     }
 
+    public Hashtable<String, CustomizedNav> getToolBarMap() { return buttons; }
     public CustomizedNav getButton(String s) { return buttons.get(s); }
 }

@@ -43,6 +43,6 @@ public class workSpace extends Container {
                 }
             }
 
-            public Hashtable<String, CustomizedButton> getWorkSpace () { return buttons; }
+            public Hashtable<String, CustomizedButton> getWorkSpaceMap () { return buttons; }
             public CustomizedButton getGridCell (String s) {return buttons.get(s); }
 }
