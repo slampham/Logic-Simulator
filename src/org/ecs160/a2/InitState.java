@@ -6,7 +6,6 @@ import com.codename1.ui.events.ActionListener;
 
 public class InitState implements MobiLogicState{
     private formApp app;
-    private int counter = 0;
     public InitState(formApp app) {
         this.app = app;
     }
