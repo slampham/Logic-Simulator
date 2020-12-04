@@ -16,6 +16,7 @@ public class userSelectsPeripheralsFromNavBarState implements MobiLogicState {
     @Override
     public void computeAction(MobiLogicContext context) {
         attachActionListenersToGrid(context);
+        System.out.println("user selects peripheral from nav-bar state");
     }
 
     private void attachActionListenersToGrid (MobiLogicContext context) {
@@ -23,16 +24,16 @@ public class userSelectsPeripheralsFromNavBarState implements MobiLogicState {
             app.getWorkSpace().getGridCell(key).addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent evt) {
+                    removeActionListeners();
                     app.getWorkSpace().getGridCell(key).addComponent(userSelectedComponent);
                     context.setState(new InitState(app));
                     context.getState().computeAction(context);
-                    removeListeners();
                 }
             });
         }
     }
 
-    private void removeListeners() {
+    private void removeActionListeners() {
         for (String key: app.getWorkSpace().getWorkSpaceMap().keySet()) {
             removeActionListener(app.getWorkSpace().getGridCell(key));
         }
@@ -40,8 +41,9 @@ public class userSelectsPeripheralsFromNavBarState implements MobiLogicState {
 
     private void removeActionListener(Button button) {
         if (button != null && !button.getListeners().isEmpty()) {
-            ActionListener l = (ActionListener) button.getListeners().toArray()[0];
-            button.removeActionListener(l);
+            for (int i = 0; i < button.getListeners().toArray().length; i++) {
+                button.removeActionListener((ActionListener) button.getListeners().toArray()[i]);
+            }
         }
     }
 }
