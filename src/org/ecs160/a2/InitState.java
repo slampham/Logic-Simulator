@@ -96,6 +96,7 @@ public class InitState implements MobiLogicState{
                 removeActionListener(app.getToolBar().getButton(key));
         }
         removeActionListener(app.getMainMenu().getButton("CLEAR"));
+        // test
     }
 
     private void removeActionListener(Button button) {
