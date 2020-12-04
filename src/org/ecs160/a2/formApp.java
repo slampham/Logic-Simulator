@@ -8,9 +8,11 @@ import com.codename1.ui.layouts.BorderLayout;
 
 public class formApp extends Form {
     private toolBar tBar;
+    //private wireBar wBar;
     private menu mainMenu;
     private workSpace wSpace;
 
+    // TODO: adjust formapp to accept both bars, and toolbar to be the same as  wirebar
     public formApp(menu main_menu, workSpace workSpaceRef, toolBar toolBarRef) {
         super("Logism 2.0");
         this.setLayout(new BorderLayout());

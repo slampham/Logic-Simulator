@@ -20,7 +20,8 @@ public class CustomizedButton extends Button {
         super(txt);
         try { r = Resources.open("/theme.res"); }
         catch (IOException e) { e.printStackTrace(); }
-        this.getAllStyles().setFgColor(0xffffff);
+        //this.getAllStyles().setFgColor(0xffffff);
+
         this.getAllStyles().setBgColor(0xffffff);
         this.getAllStyles().setBgTransparency(255);
         this.getAllStyles().setMargin(3, 3, 3,3);
@@ -68,13 +69,31 @@ public class CustomizedButton extends Button {
                 component = r.getImage("xor.png");
                 break;
             case "Toggle":
-                component = r.getImage("toggle.png");
+                component = r.getImage("toggle_off.png");
                 break;
             case "LED":
-                component = r.getImage("led.jpeg");
+                component = r.getImage("red_led.jpg");
+                break;
+            case "Vertical":
+                component = r.getImage("vertical.png");
+                break;
+            case "Horizontal":
+                component = r.getImage("horizontal.png");
+                break;
+            case "nine o'clock":
+                component = r.getImage("nine_o_clock.png");
+                break;
+            case "nine thirty":
+                component = r.getImage("nine_thirty.png");
+                break;
+            case "six fifteen":
+                component = r.getImage("six_fifteen.png");
+                break;
+            case "three o'clock":
+                component = r.getImage("three_o_clock.png");
                 break;
             default:
-                component = r.getImage("empty.png");
+                component = r.getImage("white_square.png");
         }
         return component;
     }

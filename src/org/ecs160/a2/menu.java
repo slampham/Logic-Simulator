@@ -27,6 +27,7 @@ public class menu extends Container {
         this.getAllStyles().setBgTransparency(255);
         this.getAllStyles().setPadding(50, 50, 0, 0);
 
+        //TODO: frontend adding comments :p
         Container top_row = new Container(new GridLayout(1, 2));
         CustomizedMenu bClr = new CustomizedMenu(topRow[0]);
         buttons.put(topRow[0], bClr);
