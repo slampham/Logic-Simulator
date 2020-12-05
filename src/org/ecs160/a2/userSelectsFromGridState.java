@@ -10,7 +10,7 @@ public class userSelectsFromGridState implements MobiLogicState{
 
     public userSelectsFromGridState(formApp app, String userSelectedGridCell) {
         this.app = app;
-        this. userSelectedGridCell = userSelectedGridCell;
+        this.userSelectedGridCell = userSelectedGridCell;
     }
 
     @Override
@@ -35,23 +35,23 @@ public class userSelectsFromGridState implements MobiLogicState{
     }
 
     private void trashCanFunctionality(MobiLogicContext context) {
-        if (app.getMainMenu().getButton("TRASH").getListeners() == null) {
-            app.getMainMenu().getButton("TRASH").addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent evt) {
-                    app.getWorkSpace().getGridCell(userSelectedGridCell).removeComponent();
-                    context.setState(new InitState(app));
-                    context.getState().computeAction(context);
-                    app.show();
-                }
-            });
-        }
+        app.getMainMenu().getButton("TRASH").addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent evt) {
+                removeActionListeners();
+                app.getWorkSpace().getGridCell(userSelectedGridCell).removeComponent();
+                app.show();
+                context.setState(new InitState(app));
+                context.getState().computeAction(context);
+            }
+        });
     }
 
     private void removeActionListeners() {
         for (String key: app.getWorkSpace().getWorkSpaceMap().keySet()) {
             removeActionListener(app.getWorkSpace().getGridCell(key));
         }
+        removeActionListener(app.getMainMenu().getButton("TRASH"));
     }
 
     private void removeActionListener(Button button) {
