@@ -78,7 +78,7 @@ public class InitState implements MobiLogicState{
                 @Override
                 public void actionPerformed(ActionEvent evt) {
                     removeActionListeners();
-                    context.setState(new userSelectsWireState(app));
+                    context.setState(new userSelectsWireMenuState(app));
                     context.getState().computeAction(context);
                 }
             });
