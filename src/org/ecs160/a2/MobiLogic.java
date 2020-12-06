@@ -10,6 +10,7 @@ import java.util.Map;
 
 public class MobiLogic {
     private toolBar tBar;
+    private wireBar wBar;
     private workSpace wSpace;
     private menu mainMenu;
     private formApp app;
@@ -21,9 +22,12 @@ public class MobiLogic {
     public MobiLogic() {
         tBar = new toolBar();
         tBar.setScrollableX(true);
+        wBar = new wireBar();
+        wBar.setScrollableX(true);
         wSpace = new workSpace();
         wSpace.setScrollableX(false);
         mainMenu = new menu();
+        // TODO: adjust formapp to accept both bars, and toolbar to be the same as  wirebar
         app = new formApp(mainMenu, wSpace, tBar);
     }
 
