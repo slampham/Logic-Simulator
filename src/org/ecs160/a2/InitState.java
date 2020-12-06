@@ -38,7 +38,8 @@ public class InitState implements MobiLogicState{
                 userSelectsGateFromNavBarEvent(app.getToolBar().getButton(key), context);
             else if (key.equals("Toggle") || key.equals("LED")) // toggles, led
                 userSelectsPeripheralsFromNavBarEvent(app.getToolBar().getButton(key), context);
-            // TODO: wires
+            else
+                userSelectsWireFromNavBarEvent(app.getToolBar().getButton(key), context);
         }
     }
 
@@ -65,6 +66,19 @@ public class InitState implements MobiLogicState{
                     removeActionListeners();
                     String userSelectedComponent = button.getName();
                     context.setState(new userSelectsPeripheralsFromNavBarState(app, userSelectedComponent));
+                    context.getState().computeAction(context);
+                }
+            });
+        }
+    }
+
+    private void userSelectsWireFromNavBarEvent(CustomizedNav button, MobiLogicContext context) {
+        if (button.getListeners() == null) {
+            button.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent evt) {
+                    removeActionListeners();
+                    context.setState(new userSelectsWireState(app));
                     context.getState().computeAction(context);
                 }
             });

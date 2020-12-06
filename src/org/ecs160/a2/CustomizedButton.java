@@ -20,7 +20,7 @@ public class CustomizedButton extends Button {
         super(txt);
         try { r = Resources.open("/theme.res"); }
         catch (IOException e) { e.printStackTrace(); }
-        //this.getAllStyles().setFgColor(0xffffff);
+        this.getAllStyles().setFgColor(0xffffff);
 
         this.getAllStyles().setBgColor(0xffffff);
         this.getAllStyles().setBgTransparency(255);
@@ -69,7 +69,7 @@ public class CustomizedButton extends Button {
                 component = r.getImage("xor.png");
                 break;
             case "Toggle":
-                component = r.getImage("toggle_off.png");
+                component = r.getImage("toggle_off.PNG");
                 break;
             case "LED":
                 component = r.getImage("red_led.jpg");
@@ -93,7 +93,7 @@ public class CustomizedButton extends Button {
                 component = r.getImage("three_o_clock.png");
                 break;
             default:
-                component = r.getImage("white_square.png");
+                component = r.getImage("white_square.PNG");
         }
         return component;
     }
