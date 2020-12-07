@@ -35,16 +35,14 @@ public class NOTGate implements StateChanger{
     }
 
     @Override
-    public Image getImage() {
-        calculateOutput();
-        return image;
-    }
+    public Image getImage() { return image; }
 
     @Override
     public void updateState(Boolean state) { /* pass */ }
 
     // calculates state depending on the square to its left
-    private void calculateOutput() {
+    @Override
+    public void calculateOutput() {
         Boolean input = false;
         if (app.getWorkSpace().getGridCell(gridCell - 1).getStateChanger() != null &&
                 app.getWorkSpace().getGridCell(gridCell - 1).getStateChanger().getName().equals("Horizontal")) {

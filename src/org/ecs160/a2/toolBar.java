@@ -13,7 +13,7 @@ public class toolBar extends Container {
                     "OR Gate", "NOT Gate", "XOR Gate", };
 
     private String[] wireBarButtonNames =
-            { "Back", "Vertical", "Horizontal", "nine o'clock"};
+            { "Back", "Vertical", "Horizontal", "9:30"};
 
     private Hashtable<String, CustomizedNav> buttons;
 

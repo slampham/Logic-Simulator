@@ -36,7 +36,6 @@ public class Peripheral implements StateChanger {
 
     @Override
     public Image getImage() {
-        calculateOutput();
         setImage(output);
         return image;
     }
@@ -50,19 +49,20 @@ public class Peripheral implements StateChanger {
     }
 
     // calculates output depending on grid cell positions
-    private void calculateOutput() {
+    @Override
+    public void calculateOutput() {
         switch(name) {
             case "Toggle":
                 break;
             case "LED":
             case "Horizontal":
-            case "nine o'clock":
+            case "9:30":
                 if (app.getWorkSpace().getGridCell(gridCell - 1).getStateChanger() != null)
                     output = app.getWorkSpace().getGridCell(gridCell - 1).getStateChanger().getOutput();
                 break;
             default:
-                if (app.getWorkSpace().getGridCell(gridCell + 8).getStateChanger() != null)
-                    output = app.getWorkSpace().getGridCell(gridCell + 8).getStateChanger().getOutput();
+                if (app.getWorkSpace().getGridCell(gridCell - 8).getStateChanger() != null)
+                    output = app.getWorkSpace().getGridCell(gridCell - 8).getStateChanger().getOutput();
         }
     }
 
@@ -84,7 +84,7 @@ public class Peripheral implements StateChanger {
                 image = r.getImage("horizontal.png");
                 break;
             default:
-                image = r.getImage("nine_o_clock.png");
+                image = r.getImage("nine_thirty.png");
         }
     }
 }

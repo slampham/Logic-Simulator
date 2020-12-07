@@ -36,22 +36,20 @@ public class XORGate implements StateChanger{
     }
 
     @Override
-    public Image getImage() {
-        calculateOutput();
-        return image;
-    }
+    public Image getImage() { return image; }
 
     @Override
     public void updateState(Boolean state) { /* pass */ }
 
     // calculates state depending on the square to its left and the square directly below it
-    private void calculateOutput() {
+    @Override
+    public void calculateOutput() {
         ArrayList<Boolean> inputs = new ArrayList<Boolean>();
         if (app.getWorkSpace().getGridCell(gridCell - 1).getStateChanger() != null)
             inputs.add(app.getWorkSpace().getGridCell(gridCell - 1).getStateChanger().getOutput());
-        if (app.getWorkSpace().getGridCell(gridCell + 8).getStateChanger() != null
-                && !app.getWorkSpace().getGridCell(gridCell + 8).getStateChanger().getName().equals("Horizontal"))
-            inputs.add(app.getWorkSpace().getGridCell(gridCell + 8).getStateChanger().getOutput());
+        if (app.getWorkSpace().getGridCell(gridCell - 8).getStateChanger() != null
+                && !app.getWorkSpace().getGridCell(gridCell - 8).getStateChanger().getName().equals("Horizontal"))
+            inputs.add(app.getWorkSpace().getGridCell(gridCell - 8).getStateChanger().getOutput());
         if (inputs.size() == 2) output = inputs.get(0) ^ inputs.get(1);
         else output = false;
     }

@@ -83,13 +83,10 @@ public class userSelectsWireMenuState implements MobiLogicState {
         }
     }
 
-    // FIXME: terrible function
     private void computeGridCellStates() {
-        for (int i = 0; i < 5; i++) {
-            for (Integer key: app.getWorkSpace().getWorkSpaceMap().keySet()) {
-                if (app.getWorkSpace().getGridCell(key).getStateChanger() != null) {
-                    app.getWorkSpace().getGridCell(key).updateState();
-                }
+        for (int key = 0; key < 96; key++) {
+            if (app.getWorkSpace().getGridCell(key).getStateChanger() != null) {
+                app.getWorkSpace().getGridCell(key).updateState();
             }
         }
         app.show();

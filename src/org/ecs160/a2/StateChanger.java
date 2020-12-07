@@ -15,4 +15,5 @@ public interface StateChanger {
     public String getName();
     public Image getImage();
     public void updateState(Boolean state);
+    public void calculateOutput();
 }

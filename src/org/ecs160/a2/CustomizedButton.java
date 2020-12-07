@@ -35,6 +35,7 @@ public class CustomizedButton extends Button {
     // updates state of the grid cell based on the stateChanger attached
     public void updateState() {
         if (stateChanger != null) {
+            stateChanger.calculateOutput();
             this.getAllStyles().setBgImage(stateChanger.getImage());
         }
     }
@@ -93,7 +94,7 @@ public class CustomizedButton extends Button {
             case "LED":
             case "Vertical":
             case "Horizontal":
-            case "nine o'clock":
+            case "9:30":
                 stateChanger = new Peripheral(app, cellName, s);
                 component = stateChanger.getImage();
                 break;

@@ -106,17 +106,11 @@ public class InitState implements MobiLogicState{
         }
     }
 
-    // FIXME: tbh, this function is terrible. definitely have to change it.
-    // basically, this function iterates through every grid cell and computes their state based on
-    // various gate logic + such, but the problem is that it computes state linearly, from left 2 right,
-    // and that means if we only loop once, a gate won't recognize its two inputs simultaneously.
-    // that's why i have to loop an arbitrary number of times (5).
+    // this function updates state by iterating through each individual grid cell
     private void computeGridCellStates() {
-        for (int i = 0; i < 5; i++) {
-            for (Integer key: app.getWorkSpace().getWorkSpaceMap().keySet()) {
-                if (app.getWorkSpace().getGridCell(key).getStateChanger() != null) {
-                    app.getWorkSpace().getGridCell(key).updateState();
-                }
+        for (int key = 0; key < 96; key++) {
+            if (app.getWorkSpace().getGridCell(key).getStateChanger() != null) {
+                app.getWorkSpace().getGridCell(key).updateState();
             }
         }
         app.show();
