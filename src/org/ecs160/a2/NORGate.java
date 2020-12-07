@@ -41,15 +41,15 @@ public class NORGate implements StateChanger{
     @Override
     public void updateState(Boolean state) { /* pass */ }
 
-    // calculates state depending on the square to its left and the square directly below it
+    // calculates state depending on the square to its left and the square directly above it
     @Override
     public void calculateOutput() {
         ArrayList<Boolean> inputs = new ArrayList<Boolean>();
-        if (app.getWorkSpace().getGridCell(gridCell - 1).getStateChanger() != null)
-            inputs.add(app.getWorkSpace().getGridCell(gridCell - 1).getStateChanger().getOutput());
-        if (app.getWorkSpace().getGridCell(gridCell - 8).getStateChanger() != null
+        if (app.getWorkSpace().getGridCell(gridCell - 1).isFilled())
+            inputs.add(app.getWorkSpace().getGridCell(gridCell - 1).getOutput());
+        if (app.getWorkSpace().getGridCell(gridCell - 8).isFilled()
                 && !app.getWorkSpace().getGridCell(gridCell - 8).getStateChanger().getName().equals("Horizontal"))
-            inputs.add(app.getWorkSpace().getGridCell(gridCell - 8).getStateChanger().getOutput());
+            inputs.add(app.getWorkSpace().getGridCell(gridCell - 8).getOutput());
         if (inputs.size() == 2) output = !(inputs.get(0) || inputs.get(1));
         else output = false;
     }

@@ -3,19 +3,14 @@ package org.ecs160.a2;
 import com.codename1.ui.Image;
 import com.codename1.ui.util.Resources;
 import com.codename1.ui.Button;
-import com.codename1.ui.Container;
-import com.codename1.ui.layouts.BoxLayout;
-import com.codename1.ui.layouts.GridLayout;
-import com.codename1.ui.plaf.Style;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 public class CustomizedButton extends Button {
     private StateChanger stateChanger;
     private Integer cellName;
     private Boolean filled = false;
+    private Boolean output = false;
     private Resources r;
 
     public CustomizedButton(Integer txt) {
@@ -27,18 +22,23 @@ public class CustomizedButton extends Button {
         this.getAllStyles().setBgColor(0xffffff);
         this.getAllStyles().setBgTransparency(255);
         this.getAllStyles().setMargin(3, 3, 3,3);
-        //this.setSize(new Dimension(8,10));
 
         cellName = txt;
     }
 
     // updates state of the grid cell based on the stateChanger attached
+    // used to refresh states when circuit is changed
     public void updateState() {
         if (stateChanger != null) {
             stateChanger.calculateOutput();
+            output = stateChanger.getOutput();
             this.getAllStyles().setBgImage(stateChanger.getImage());
+        } else {
+            output = false;
         }
     }
+
+    public Boolean getOutput() { return output; }
 
     public StateChanger getStateChanger() { return stateChanger; }
 
@@ -47,7 +47,8 @@ public class CustomizedButton extends Button {
     public Boolean isFilled() { return filled; }
 
     public void addComponent(formApp app, String s) {
-        if (!filled) this.getAllStyles().setBgImage(chooseComponent(app, s));
+        if (!filled)
+            this.getAllStyles().setBgImage(chooseComponent(app, s));
         filled = true;
     }
 
@@ -65,30 +66,37 @@ public class CustomizedButton extends Button {
             case "AND Gate":
                 stateChanger = new ANDGate(app, cellName, s);
                 component = stateChanger.getImage();
+                output = stateChanger.getOutput();
                 break;
             case "NAND Gate":
                 stateChanger = new NANDGate(app, cellName, s);
                 component = stateChanger.getImage();
+                output = stateChanger.getOutput();
                 break;
             case "NOR Gate":
                 stateChanger = new NORGate(app, cellName, s);
                 component = stateChanger.getImage();
+                output = stateChanger.getOutput();
                 break;
             case "NOT Gate":
                 stateChanger = new NOTGate(app, cellName, s);
                 component = stateChanger.getImage();
+                output = stateChanger.getOutput();
                 break;
             case "OR Gate":
                 stateChanger = new ORGate(app, cellName, s);
                 component = stateChanger.getImage();
+                output = stateChanger.getOutput();
                 break;
             case "XNOR Gate":
                 stateChanger = new XNORGate(app, cellName, s);
                 component = stateChanger.getImage();
+                output = stateChanger.getOutput();
                 break;
             case "XOR Gate":
                 stateChanger = new XORGate(app, cellName, s);
                 component = stateChanger.getImage();
+                output = stateChanger.getOutput();
                 break;
             case "Toggle":
             case "LED":
@@ -97,6 +105,7 @@ public class CustomizedButton extends Button {
             case "9:30":
                 stateChanger = new Peripheral(app, cellName, s);
                 component = stateChanger.getImage();
+                output = stateChanger.getOutput();
                 break;
             default:
                 component = r.getImage("white_square.PNG");

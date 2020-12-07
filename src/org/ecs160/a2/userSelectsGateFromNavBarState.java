@@ -44,9 +44,7 @@ public class userSelectsGateFromNavBarState implements MobiLogicState {
 
     private void computeGridCellStates() {
         for (int key = 0; key < 96; key++) {
-            if (app.getWorkSpace().getGridCell(key).getStateChanger() != null) {
-                app.getWorkSpace().getGridCell(key).updateState();
-            }
+            app.getWorkSpace().getGridCell(key).updateState();
         }
         app.show();
     }

@@ -57,12 +57,16 @@ public class Peripheral implements StateChanger {
             case "LED":
             case "Horizontal":
             case "9:30":
-                if (app.getWorkSpace().getGridCell(gridCell - 1).getStateChanger() != null)
-                    output = app.getWorkSpace().getGridCell(gridCell - 1).getStateChanger().getOutput();
+                if (app.getWorkSpace().getGridCell(gridCell - 1).isFilled())
+                    output = app.getWorkSpace().getGridCell(gridCell - 1).getOutput();
+                else
+                    output = false;
                 break;
             default:
-                if (app.getWorkSpace().getGridCell(gridCell - 8).getStateChanger() != null)
-                    output = app.getWorkSpace().getGridCell(gridCell - 8).getStateChanger().getOutput();
+                if (app.getWorkSpace().getGridCell(gridCell - 8).isFilled())
+                    output = app.getWorkSpace().getGridCell(gridCell - 8).getOutput();
+                else
+                    output = false;
         }
     }
 
