@@ -4,29 +4,37 @@ import com.codename1.ui.Button;
 import com.codename1.ui.events.ActionEvent;
 import com.codename1.ui.events.ActionListener;
 
-public class userSelectsFromNavBarState implements MobiLogicState {
+public class userSelectsGateFromNavBarState implements MobiLogicState {
+    /**
+     * When the user has selected a gate from the nav-bar (and possibly wants to place it down),
+     * we create a new state of this type.
+     */
+
     private formApp app;
     private String userSelectedComponent;
 
-    public userSelectsFromNavBarState (formApp app, String userSelectedComponent) {
+    public userSelectsGateFromNavBarState(formApp app, String userSelectedComponent) {
         this.app = app;
         this.userSelectedComponent = userSelectedComponent;
     }
 
     @Override
     public void computeAction(MobiLogicContext context) {
+        computeGridCellStates();
         attachActionListenersToGrid(context);
         System.out.println("user selects gate from nav-bar state");
     }
 
+    // attaches an action listener to each grid cell, remove on state-change
+    // takes care of the case: user wants to place the gate they've selected from the nav-bar on the workspace
     private void attachActionListenersToGrid (MobiLogicContext context) {
-        for (String key: app.getWorkSpace().getWorkSpaceMap().keySet()) {
+        for (Integer key: app.getWorkSpace().getWorkSpaceMap().keySet()) {
             app.getWorkSpace().getGridCell(key).addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent evt) {
                     removeActionListeners();
-                    app.getWorkSpace().getGridCell(key).addComponent(userSelectedComponent);
-                    app.getMainMenu().updateGateSelected("Gate Appears Here");
+                    app.getWorkSpace().getGridCell(key).addComponent(app, userSelectedComponent);
+                    app.getMainMenu().updateGateSelected("Selected Tool");
                     context.setState(new InitState(app));
                     context.getState().computeAction(context);
                 }
@@ -34,8 +42,15 @@ public class userSelectsFromNavBarState implements MobiLogicState {
         }
     }
 
+    private void computeGridCellStates() {
+        for (int key = 0; key < 96; key++) {
+            app.getWorkSpace().getGridCell(key).updateState();
+        }
+        app.show();
+    }
+
     private void removeActionListeners() {
-        for (String key: app.getWorkSpace().getWorkSpaceMap().keySet()) {
+        for (Integer key: app.getWorkSpace().getWorkSpaceMap().keySet()) {
             removeActionListener(app.getWorkSpace().getGridCell(key));
         }
     }

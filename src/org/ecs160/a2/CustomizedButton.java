@@ -3,21 +3,18 @@ package org.ecs160.a2;
 import com.codename1.ui.Image;
 import com.codename1.ui.util.Resources;
 import com.codename1.ui.Button;
-import com.codename1.ui.Container;
-import com.codename1.ui.layouts.BoxLayout;
-import com.codename1.ui.layouts.GridLayout;
-import com.codename1.ui.plaf.Style;
 
-import java.awt.*;
 import java.io.IOException;
 
 public class CustomizedButton extends Button {
-    private String cellName;
+    private StateChanger stateChanger;
+    private Integer cellName;
     private Boolean filled = false;
+    private Boolean output = false;
     private Resources r;
 
-    public CustomizedButton(String txt) {
-        super(txt);
+    public CustomizedButton(Integer txt) {
+        super(Integer.toString(txt));
         try { r = Resources.open("/theme.res"); }
         catch (IOException e) { e.printStackTrace(); }
         this.getAllStyles().setFgColor(0xffffff);
@@ -25,72 +22,90 @@ public class CustomizedButton extends Button {
         this.getAllStyles().setBgColor(0xffffff);
         this.getAllStyles().setBgTransparency(255);
         this.getAllStyles().setMargin(3, 3, 3,3);
-        //this.setSize(new Dimension(8,10));
 
         cellName = txt;
     }
 
-    public String getCell() { return cellName; }
+    // updates state of the grid cell based on the stateChanger attached
+    // used to refresh states when circuit is changed
+    public void updateState() {
+        if (stateChanger != null) {
+            stateChanger.calculateOutput();
+            output = stateChanger.getOutput();
+            this.getAllStyles().setBgImage(stateChanger.getImage());
+        } else {
+            output = false;
+        }
+    }
+
+    public Boolean getOutput() { return output; }
+
+    public StateChanger getStateChanger() { return stateChanger; }
+
+    public Integer getCell() { return cellName; }
 
     public Boolean isFilled() { return filled; }
 
-    public void addComponent(String s) {
-        if (!filled) this.getAllStyles().setBgImage(chooseComponent(s));
+    public void addComponent(formApp app, String s) {
+        if (!filled)
+            this.getAllStyles().setBgImage(chooseComponent(app, s));
         filled = true;
     }
 
     public void removeComponent() {
-        if (filled) { this.getAllStyles().setBgImage(null); }
+        if (filled) {
+            stateChanger = null;
+            this.getAllStyles().setBgImage(null);
+        }
         filled = false;
     }
 
-    private Image chooseComponent (String s) {
+    private Image chooseComponent (formApp app, String s) {
         Image component;
         switch(s) {
             case "AND Gate":
-                component = r.getImage("and.png");
+                stateChanger = new ANDGate(app, cellName, s);
+                component = stateChanger.getImage();
+                output = stateChanger.getOutput();
                 break;
             case "NAND Gate":
-                component = r.getImage("nand.png");
+                stateChanger = new NANDGate(app, cellName, s);
+                component = stateChanger.getImage();
+                output = stateChanger.getOutput();
                 break;
             case "NOR Gate":
-                component = r.getImage("nor.png");
+                stateChanger = new NORGate(app, cellName, s);
+                component = stateChanger.getImage();
+                output = stateChanger.getOutput();
                 break;
             case "NOT Gate":
-                component = r.getImage("not.png");
+                stateChanger = new NOTGate(app, cellName, s);
+                component = stateChanger.getImage();
+                output = stateChanger.getOutput();
                 break;
             case "OR Gate":
-                component = r.getImage("or.png");
+                stateChanger = new ORGate(app, cellName, s);
+                component = stateChanger.getImage();
+                output = stateChanger.getOutput();
                 break;
             case "XNOR Gate":
-                component = r.getImage("xnor.png");
+                stateChanger = new XNORGate(app, cellName, s);
+                component = stateChanger.getImage();
+                output = stateChanger.getOutput();
                 break;
             case "XOR Gate":
-                component = r.getImage("xor.png");
+                stateChanger = new XORGate(app, cellName, s);
+                component = stateChanger.getImage();
+                output = stateChanger.getOutput();
                 break;
             case "Toggle":
-                component = r.getImage("toggle_off.PNG");
-                break;
             case "LED":
-                component = r.getImage("red_led.jpg");
-                break;
             case "Vertical":
-                component = r.getImage("vertical.png");
-                break;
             case "Horizontal":
-                component = r.getImage("horizontal.png");
-                break;
-            case "nine o'clock":
-                component = r.getImage("nine_o_clock.png");
-                break;
-            case "nine thirty":
-                component = r.getImage("nine_thirty.png");
-                break;
-            case "six fifteen":
-                component = r.getImage("six_fifteen.png");
-                break;
-            case "three o'clock":
-                component = r.getImage("three_o_clock.png");
+            case "9:30":
+                stateChanger = new Peripheral(app, cellName, s);
+                component = stateChanger.getImage();
+                output = stateChanger.getOutput();
                 break;
             default:
                 component = r.getImage("white_square.PNG");
