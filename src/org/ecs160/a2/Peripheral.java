@@ -74,12 +74,24 @@ public class Peripheral implements StateChanger {
     private void setImage(Boolean state) {
         switch(name) {
             case "Toggle":
-                if (state) image = r.getImage("toggle_on.PNG");
-                else image = r.getImage("toggle_off.PNG");
+                if (state) {
+                    image = r.getImage("toggle_on.png");
+                    app.getWorkSpace().getGridCell(gridCell).getAllStyles().setFgColor(0x01FF15);
+                }
+                else {
+                    image = r.getImage("toggle_off.png");
+                    app.getWorkSpace().getGridCell(gridCell).getAllStyles().setFgColor(0x00A650);
+                }
                 break;
             case "LED":
-                if (state) image = r.getImage("green_led.jpg");
-                else image = r.getImage("red_led.jpg");
+                if (state) {
+                    image = r.getImage("green_led.png");
+                    app.getWorkSpace().getGridCell(gridCell).getAllStyles().setFgColor(0x01FF15);
+                }
+                else {
+                    image = r.getImage("red_led.png");
+                    app.getWorkSpace().getGridCell(gridCell).getAllStyles().setFgColor(0xFC0204);
+                }
                 break;
             case "Vertical":
                 image = r.getImage("vertical.png");

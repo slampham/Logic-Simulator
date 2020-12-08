@@ -43,6 +43,7 @@ public class CustomizedButton extends Button {
         this.getAllStyles().setMargin(10, 10, 10,10);
     }
 
+    // used to refresh the margins of user-highlighted grid cells
     public void unhighlightGridCell() {
         this.getAllStyles().setMargin(3, 3, 3,3);
     }
@@ -65,6 +66,7 @@ public class CustomizedButton extends Button {
         if (filled) {
             stateChanger = null;
             this.getAllStyles().setBgImage(null);
+            this.getAllStyles().setFgColor(0xffffff);
         }
         filled = false;
     }
