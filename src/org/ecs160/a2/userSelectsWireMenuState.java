@@ -60,6 +60,7 @@ public class userSelectsWireMenuState implements MobiLogicState {
                 public void actionPerformed(ActionEvent evt) {
                     removeActionListeners();
                     String userSelectedComponent = button.getName();
+                    app.getMainMenu().updateGateSelected(userSelectedComponent + " wire");
                     context.setState(new userSelectsWireState(app, userSelectedComponent));
                     context.getState().computeAction(context);
                 }

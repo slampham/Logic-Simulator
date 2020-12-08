@@ -34,7 +34,7 @@ public class userSelectsGateFromNavBarState implements MobiLogicState {
                 public void actionPerformed(ActionEvent evt) {
                     removeActionListeners();
                     app.getWorkSpace().getGridCell(key).addComponent(app, userSelectedComponent);
-                    app.getMainMenu().updateGateSelected("Gate Appears Here");
+                    app.getMainMenu().updateGateSelected("Selected Tool");
                     context.setState(new InitState(app));
                     context.getState().computeAction(context);
                 }

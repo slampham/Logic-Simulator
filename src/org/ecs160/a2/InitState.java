@@ -70,6 +70,7 @@ public class InitState implements MobiLogicState{
                 public void actionPerformed(ActionEvent evt) {
                     removeActionListeners();
                     String userSelectedComponent = button.getName();
+                    app.getMainMenu().updateGateSelected(userSelectedComponent);
                     context.setState(new userSelectsPeripheralsFromNavBarState(app, userSelectedComponent));
                     context.getState().computeAction(context);
                 }
