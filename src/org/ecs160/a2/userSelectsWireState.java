@@ -20,7 +20,7 @@ public class userSelectsWireState implements MobiLogicState{
 
     @Override
     public void computeAction(MobiLogicContext context) {
-        computeGridCellStates();
+        refreshScreen();
         attachActionListenersToGrid(context);
         System.out.println("user selects wire state");
     }
@@ -42,8 +42,9 @@ public class userSelectsWireState implements MobiLogicState{
         }
     }
 
-    private void computeGridCellStates() {
+    private void refreshScreen() {
         for (int key = 0; key < 96; key++) {
+            app.getWorkSpace().getGridCell(key).unhighlightGridCell();
             app.getWorkSpace().getGridCell(key).updateState();
         }
         app.show();

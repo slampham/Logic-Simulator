@@ -38,6 +38,15 @@ public class CustomizedButton extends Button {
         }
     }
 
+    // used to invoke a visual cue when the user selects a particular grid cell
+    public void highlightGridCell() {
+        this.getAllStyles().setMargin(10, 10, 10,10);
+    }
+
+    public void unhighlightGridCell() {
+        this.getAllStyles().setMargin(3, 3, 3,3);
+    }
+
     public Boolean getOutput() { return output; }
 
     public StateChanger getStateChanger() { return stateChanger; }

@@ -20,7 +20,7 @@ public class userSelectsWireMenuState implements MobiLogicState {
 
     @Override
     public void computeAction(MobiLogicContext context) {
-        computeGridCellStates();
+        refreshScreen();
         backFunctionality(context);
         userSelectsWireEvent(context);
         userSelectsFromGridEvent(context);
@@ -84,8 +84,9 @@ public class userSelectsWireMenuState implements MobiLogicState {
         }
     }
 
-    private void computeGridCellStates() {
+    private void refreshScreen() {
         for (int key = 0; key < 96; key++) {
+            app.getWorkSpace().getGridCell(key).unhighlightGridCell();
             app.getWorkSpace().getGridCell(key).updateState();
         }
         app.show();

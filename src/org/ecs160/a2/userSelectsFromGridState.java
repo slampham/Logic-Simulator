@@ -21,7 +21,8 @@ public class userSelectsFromGridState implements MobiLogicState{
     @Override
     public void computeAction(MobiLogicContext context) {
         controlToggle();
-        computeGridCellStates();
+        refreshScreen();
+        highlightUserSelectedGridCell();
         userSelectsFromGridAgainState(context);
         trashCanFunctionality(context);
         System.out.println("user selects from grid state");
@@ -45,15 +46,16 @@ public class userSelectsFromGridState implements MobiLogicState{
 
     // implements toggle functionality (turning it on/off)
     private void controlToggle() {
-        if (app.getWorkSpace().getGridCell(userSelectedGridCell).getStateChanger() != null &&
+        if (app.getWorkSpace().getGridCell(userSelectedGridCell).isFilled() &&
                 app.getWorkSpace().getGridCell(userSelectedGridCell).getStateChanger().getName().equals("Toggle")) {
-            Boolean previousState = app.getWorkSpace().getGridCell(userSelectedGridCell).getStateChanger().getOutput();
+            Boolean previousState = app.getWorkSpace().getGridCell(userSelectedGridCell).getOutput();
             app.getWorkSpace().getGridCell(userSelectedGridCell).getStateChanger().updateState(!previousState);
         }
     }
 
-    private void computeGridCellStates() {
+    private void refreshScreen() {
         for (int key = 0; key < 96; key++) {
+            app.getWorkSpace().getGridCell(key).unhighlightGridCell();
             app.getWorkSpace().getGridCell(key).updateState();
         }
         app.show();
@@ -74,6 +76,11 @@ public class userSelectsFromGridState implements MobiLogicState{
                 context.getState().computeAction(context);
             }
         });
+    }
+
+    private void highlightUserSelectedGridCell() {
+        app.getWorkSpace().getGridCell(userSelectedGridCell).highlightGridCell();
+        app.show();
     }
 
     private void removeActionListeners() {

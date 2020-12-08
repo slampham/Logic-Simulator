@@ -12,7 +12,7 @@ public class InitState implements MobiLogicState{
 
     @Override
     public void computeAction(MobiLogicContext context) {
-        computeGridCellStates();
+        refreshScreen();
         clearBoardFunctionality();
         userSelectsFromNavBarEvent(context);
         userSelectsFromGridEvent(context);
@@ -108,8 +108,9 @@ public class InitState implements MobiLogicState{
     }
 
     // this function updates state by iterating through each individual grid cell
-    private void computeGridCellStates() {
+    private void refreshScreen() {
         for (int key = 0; key < 96; key++) {
+            app.getWorkSpace().getGridCell(key).unhighlightGridCell();
             app.getWorkSpace().getGridCell(key).updateState();
         }
         app.show();
