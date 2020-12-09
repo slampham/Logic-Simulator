@@ -47,9 +47,11 @@ public class XNORGate implements StateChanger{
     @Override
     public void calculateOutput(formApp app) {
         ArrayList<Boolean> inputs = new ArrayList<Boolean>();
-        if (app.getWorkSpace().getGridCell(gridCell - 1).isFilled())
+        if (app.getWorkSpace().getGridCell(gridCell - 1) != null &&
+                app.getWorkSpace().getGridCell(gridCell - 1).isFilled())
             inputs.add(app.getWorkSpace().getGridCell(gridCell - 1).getOutput());
-        if (app.getWorkSpace().getGridCell(gridCell - 8).isFilled()
+        if (app.getWorkSpace().getGridCell(gridCell - 8) != null &&
+                app.getWorkSpace().getGridCell(gridCell - 8).isFilled()
                 && !app.getWorkSpace().getGridCell(gridCell - 8).getStateChanger().getName().equals("Horizontal"))
             inputs.add(app.getWorkSpace().getGridCell(gridCell - 8).getOutput());
         if (inputs.size() == 2) output = inputs.get(0) == inputs.get(1);

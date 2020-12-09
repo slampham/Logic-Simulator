@@ -45,7 +45,8 @@ public class NOTGate implements StateChanger{
     // calculates state depending on the square to its left
     @Override
     public void calculateOutput(formApp app) {
-        if (app.getWorkSpace().getGridCell(gridCell - 1).isFilled() &&
+        if (app.getWorkSpace().getGridCell(gridCell - 1) != null &&
+                app.getWorkSpace().getGridCell(gridCell - 1).isFilled() &&
                 (app.getWorkSpace().getGridCell(gridCell - 1).getStateChanger().getName().equals("Horizontal") ||
                 app.getWorkSpace().getGridCell(gridCell - 1).getStateChanger().getName().equals("Toggle"))) {
             Boolean input = app.getWorkSpace().getGridCell(gridCell - 1).getOutput();
