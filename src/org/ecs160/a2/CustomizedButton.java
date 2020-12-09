@@ -1,12 +1,14 @@
 package org.ecs160.a2;
 
+import com.codename1.io.Externalizable;
+import com.codename1.io.Util;
 import com.codename1.ui.Image;
 import com.codename1.ui.util.Resources;
 import com.codename1.ui.Button;
 
-import java.io.IOException;
+import java.io.*;
 
-public class CustomizedButton extends Button {
+public class CustomizedButton extends Button implements Externalizable {
     private StateChanger stateChanger;
     private Integer cellName;
     private Boolean filled = false;
@@ -26,11 +28,20 @@ public class CustomizedButton extends Button {
         cellName = txt;
     }
 
+    public CustomizedButton() {
+        try { r = Resources.open("/theme.res"); }
+        catch (IOException e) { e.printStackTrace(); }
+        this.getAllStyles().setFgColor(0xffffff);
+        this.getAllStyles().setBgColor(0xffffff);
+        this.getAllStyles().setBgTransparency(255);
+        this.getAllStyles().setMargin(3, 3, 3,3);
+    }
+
     // updates state of the grid cell based on the stateChanger attached
     // used to refresh states when circuit is changed
-    public void updateState() {
+    public void updateState(formApp app) {
         if (stateChanger != null) {
-            stateChanger.calculateOutput();
+            stateChanger.calculateOutput(app);
             output = stateChanger.getOutput();
             this.getAllStyles().setBgImage(stateChanger.getImage());
         } else {
@@ -75,37 +86,44 @@ public class CustomizedButton extends Button {
         Image component;
         switch(s) {
             case "AND Gate":
-                stateChanger = new ANDGate(app, cellName, s);
+                stateChanger = new ANDGate(cellName, s);
+                stateChanger.calculateOutput(app);
                 component = stateChanger.getImage();
                 output = stateChanger.getOutput();
                 break;
             case "NAND Gate":
-                stateChanger = new NANDGate(app, cellName, s);
+                stateChanger = new NANDGate(cellName, s);
+                stateChanger.calculateOutput(app);
                 component = stateChanger.getImage();
                 output = stateChanger.getOutput();
                 break;
             case "NOR Gate":
-                stateChanger = new NORGate(app, cellName, s);
+                stateChanger = new NORGate(cellName, s);
+                stateChanger.calculateOutput(app);
                 component = stateChanger.getImage();
                 output = stateChanger.getOutput();
                 break;
             case "NOT Gate":
-                stateChanger = new NOTGate(app, cellName, s);
+                stateChanger = new NOTGate(cellName, s);
+                stateChanger.calculateOutput(app);
                 component = stateChanger.getImage();
                 output = stateChanger.getOutput();
                 break;
             case "OR Gate":
-                stateChanger = new ORGate(app, cellName, s);
+                stateChanger = new ORGate(cellName, s);
+                stateChanger.calculateOutput(app);
                 component = stateChanger.getImage();
                 output = stateChanger.getOutput();
                 break;
             case "XNOR Gate":
-                stateChanger = new XNORGate(app, cellName, s);
+                stateChanger = new XNORGate(cellName, s);
+                stateChanger.calculateOutput(app);
                 component = stateChanger.getImage();
                 output = stateChanger.getOutput();
                 break;
             case "XOR Gate":
-                stateChanger = new XORGate(app, cellName, s);
+                stateChanger = new XORGate(cellName, s);
+                stateChanger.calculateOutput(app);
                 component = stateChanger.getImage();
                 output = stateChanger.getOutput();
                 break;
@@ -114,7 +132,8 @@ public class CustomizedButton extends Button {
             case "Vertical":
             case "Horizontal":
             case "9:30":
-                stateChanger = new Peripheral(app, cellName, s);
+                stateChanger = new Peripheral(cellName, s);
+                stateChanger.calculateOutput(app);
                 component = stateChanger.getImage();
                 output = stateChanger.getOutput();
                 break;
@@ -122,5 +141,31 @@ public class CustomizedButton extends Button {
                 component = r.getImage("white_square.PNG");
         }
         return component;
+    }
+
+    @Override
+    public int getVersion() {
+        return 1;
+    }
+
+    @Override
+    public void externalize(DataOutputStream out) throws IOException {
+        Util.writeObject(stateChanger, out);
+        Util.writeObject(cellName, out);
+        Util.writeObject(filled, out);
+        Util.writeObject(output, out);
+    }
+
+    @Override
+    public void internalize(int version, DataInputStream in) throws IOException {
+        stateChanger = (StateChanger) Util.readObject(in);
+        cellName = (Integer) Util.readObject(in);
+        filled = (Boolean) Util.readObject(in);
+        output = (Boolean) Util.readObject(in);
+    }
+
+    @Override
+    public String getObjectId() {
+        return "Grid cell";
     }
 }

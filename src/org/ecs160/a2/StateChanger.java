@@ -1,7 +1,8 @@
 package org.ecs160.a2;
+import com.codename1.io.Externalizable;
 import com.codename1.ui.Image;
 
-public interface StateChanger {
+public interface StateChanger extends Externalizable {
     /**
      * This interface encapsulates gates, wires, LEDs/toggles.
      * Gates are implemented separately. Wires/LEDs/toggles fall under the "Peripheral" object umbrella.
@@ -15,5 +16,5 @@ public interface StateChanger {
     public String getName();
     public Image getImage();
     public void updateState(Boolean state);
-    public void calculateOutput();
+    public void calculateOutput(formApp app);
 }

@@ -1,5 +1,7 @@
 package org.ecs160.a2;
 
+import com.codename1.io.Storage;
+import com.codename1.io.Util;
 import com.codename1.ui.Button;
 import com.codename1.ui.events.ActionEvent;
 import com.codename1.ui.events.ActionListener;
@@ -50,14 +52,16 @@ public class userSelectsFromGridState implements MobiLogicState{
                 app.getWorkSpace().getGridCell(userSelectedGridCell).getStateChanger().getName().equals("Toggle")) {
             Boolean previousState = app.getWorkSpace().getGridCell(userSelectedGridCell).getOutput();
             app.getWorkSpace().getGridCell(userSelectedGridCell).getStateChanger().updateState(!previousState);
+            app.getWorkSpace().getGridCell(userSelectedGridCell).getStateChanger().calculateOutput(app);
         }
     }
 
     private void refreshScreen() {
         for (int key = 0; key < 96; key++) {
             app.getWorkSpace().getGridCell(key).unhighlightGridCell();
-            app.getWorkSpace().getGridCell(key).updateState();
+            app.getWorkSpace().getGridCell(key).updateState(app);
         }
+        Storage.getInstance().writeObject("workspace", app.getWorkSpace().getWorkSpaceMap());
         app.show();
     }
 

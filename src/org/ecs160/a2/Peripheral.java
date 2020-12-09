@@ -1,27 +1,31 @@
 package org.ecs160.a2;
 
+import com.codename1.io.Util;
 import com.codename1.ui.Image;
 import com.codename1.ui.util.Resources;
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
 
 public class Peripheral implements StateChanger {
 
     private Resources r;
-    private formApp app;
     private Integer gridCell;
     private Boolean output = false;
     private String name;
     private Image image;
 
-    public Peripheral(formApp app, Integer gridCell, String name) {
+    public Peripheral(Integer gridCell, String name) {
         try { r = Resources.open("/theme.res"); }
         catch (IOException e) { e.printStackTrace(); }
-        this.app = app;
         this.gridCell = gridCell;
         this.name = name;
-        calculateOutput();
-        setImage(output);
+    }
+
+    public Peripheral () {
+        try { r = Resources.open("/theme.res"); }
+        catch (IOException e) { e.printStackTrace(); }
     }
 
     @Override
@@ -36,21 +40,19 @@ public class Peripheral implements StateChanger {
 
     @Override
     public Image getImage() {
-        setImage(output);
         return image;
     }
 
     // this function is primarily used for the toggle since we need to change its state externally
-    // TODO: consider separating toggle from LED/wires
     @Override
     public void updateState(Boolean state) {
         output = state;
-        setImage(state);
     }
 
     // calculates output depending on grid cell positions
     @Override
-    public void calculateOutput() {
+    public void calculateOutput(formApp app) {
+        // switch statement to calculate output
         switch(name) {
             case "Toggle":
                 break;
@@ -68,13 +70,39 @@ public class Peripheral implements StateChanger {
                 else
                     output = false;
         }
+        setImage(app);
     }
 
-    // sets image based on state
-    private void setImage(Boolean state) {
+    @Override
+    public int getVersion() {
+        return 0;
+    }
+
+    @Override
+    public void externalize(DataOutputStream out) throws IOException {
+        Util.writeObject(gridCell, out);
+        Util.writeObject(output, out);
+        Util.writeObject(name, out);
+        Util.writeObject(image, out);
+    }
+
+    @Override
+    public void internalize(int version, DataInputStream in) throws IOException {
+        gridCell = (Integer) Util.readObject(in);
+        output = (Boolean) Util.readObject(in);
+        name = (String) Util.readObject(in);
+        image = (Image) Util.readObject(in);
+    }
+
+    @Override
+    public String getObjectId() {
+        return "Peripheral";
+    }
+
+    private void setImage(formApp app) {
         switch(name) {
             case "Toggle":
-                if (state) {
+                if (output) {
                     image = r.getImage("toggle_on.png");
                     app.getWorkSpace().getGridCell(gridCell).getAllStyles().setFgColor(0x01FF15);
                 }
@@ -84,7 +112,7 @@ public class Peripheral implements StateChanger {
                 }
                 break;
             case "LED":
-                if (state) {
+                if (output) {
                     image = r.getImage("green_led.png");
                     app.getWorkSpace().getGridCell(gridCell).getAllStyles().setFgColor(0x01FF15);
                 }
