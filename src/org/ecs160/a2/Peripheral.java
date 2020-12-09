@@ -8,7 +8,7 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-public class Peripheral implements Component {
+public class Peripheral extends Component {
 
     private Resources r;
     private Integer gridCell;
@@ -75,7 +75,7 @@ public class Peripheral implements Component {
                 break;
             default: // vertical
                 if (app.getWorkSpace().getGridCell(gridCell - 8).isFilled()
-                        && !(app.getWorkSpace().getGridCell(gridCell - 8).getStateChanger().getName().equals("Horizontal")))
+                        && !(app.getWorkSpace().getGridCell(gridCell - 8).getComponent().getName().equals("Horizontal")))
                     output = app.getWorkSpace().getGridCell(gridCell - 8).getOutput();
                 else
                     //output = false;

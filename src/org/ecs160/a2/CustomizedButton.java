@@ -68,7 +68,7 @@ public class CustomizedButton extends Button implements Externalizable {
 
    // public Integer getDelay() { return delay; }
 
-    public Component getStateChanger() { return component; }
+    public Component getComponent() { return component; }
 
     public Integer getCell() { return cellName; }
 
