@@ -1,5 +1,7 @@
 package org.ecs160.a2;
 
+import com.codename1.io.Storage;
+import com.codename1.io.Util;
 import com.codename1.ui.Button;
 import com.codename1.ui.events.ActionEvent;
 import com.codename1.ui.events.ActionListener;
@@ -87,8 +89,9 @@ public class userSelectsWireMenuState implements MobiLogicState {
     private void refreshScreen() {
         for (int key = 0; key < 96; key++) {
             app.getWorkSpace().getGridCell(key).unhighlightGridCell();
-            app.getWorkSpace().getGridCell(key).updateState();
+            app.getWorkSpace().getGridCell(key).updateState(app);
         }
+        Storage.getInstance().writeObject("workspace", app.getWorkSpace().getWorkSpaceMap());
         app.show();
     }
 
