@@ -8,7 +8,7 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-public class NOTGate implements StateChanger{
+public class NOTGate implements Component {
 
     private Resources r;
     private Integer gridCell;

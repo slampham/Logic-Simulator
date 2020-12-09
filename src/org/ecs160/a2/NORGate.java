@@ -8,9 +8,8 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 
-public class NORGate implements StateChanger{
+public class NORGate implements Component {
 
     private Resources r;
     private Integer gridCell;

@@ -7,9 +7,8 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 
-public class ANDGate implements StateChanger{
+public class ANDGate implements Component {
 
     private Resources r;
     private Integer gridCell;

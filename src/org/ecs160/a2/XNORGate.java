@@ -8,9 +8,8 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 
-public class XNORGate implements StateChanger{
+public class XNORGate implements Component {
 
     private Resources r;
     private Integer gridCell;
