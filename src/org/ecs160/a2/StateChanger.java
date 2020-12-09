@@ -12,9 +12,12 @@ public interface StateChanger extends Externalizable {
      * Each function below is unique to gates, wires, LEDs/toggles.
      */
 
-    public Boolean getOutput();
+    //public Boolean getOutput();
+    public Integer getOutput();
     public String getName();
     public Image getImage();
-    public void updateState(Boolean state);
+  //  public Integer getDelay();
+    //public void updateState(Boolean state);
+    public void updateState(Integer state);
     public void calculateOutput(formApp app);
 }

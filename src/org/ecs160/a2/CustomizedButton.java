@@ -12,8 +12,10 @@ public class CustomizedButton extends Button implements Externalizable {
     private StateChanger stateChanger;
     private Integer cellName;
     private Boolean filled = false;
-    private Boolean output = false;
+//    private Boolean output = false;
+    private Integer output = 0;
     private Resources r;
+    //private Integer delay;
 
     public CustomizedButton(Integer txt) {
         super(Integer.toString(txt));
@@ -43,9 +45,11 @@ public class CustomizedButton extends Button implements Externalizable {
         if (stateChanger != null) {
             stateChanger.calculateOutput(app);
             output = stateChanger.getOutput();
+           // delay = stateChanger.getDelay();
             this.getAllStyles().setBgImage(stateChanger.getImage());
         } else {
-            output = false;
+            //output = false;
+            output = -1;
         }
     }
 
@@ -59,7 +63,10 @@ public class CustomizedButton extends Button implements Externalizable {
         this.getAllStyles().setMargin(3, 3, 3,3);
     }
 
-    public Boolean getOutput() { return output; }
+    //public Boolean getOutput() { return output; }
+    public Integer getOutput() { return output; }
+
+   // public Integer getDelay() { return delay; }
 
     public StateChanger getStateChanger() { return stateChanger; }
 
@@ -161,7 +168,8 @@ public class CustomizedButton extends Button implements Externalizable {
         stateChanger = (StateChanger) Util.readObject(in);
         cellName = (Integer) Util.readObject(in);
         filled = (Boolean) Util.readObject(in);
-        output = (Boolean) Util.readObject(in);
+        //output = (Boolean) Util.readObject(in);
+        output = (Integer) Util.readObject(in);
     }
 
     @Override

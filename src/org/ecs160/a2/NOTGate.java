@@ -12,9 +12,11 @@ public class NOTGate implements StateChanger{
 
     private Resources r;
     private Integer gridCell;
-    private Boolean output;
+//    private Boolean output;
+    private Integer output;
     private String name;
     private Image image;
+    private Integer propDelay;
 
     public NOTGate (Integer gridCell, String name) {
         try { r = Resources.open("/theme.res"); }
@@ -26,10 +28,11 @@ public class NOTGate implements StateChanger{
 
     public NOTGate () {}
 
+//    @Override
+//    public Boolean getOutput() { return output; }
+
     @Override
-    public Boolean getOutput() {
-        return output;
-    }
+    public Integer getOutput() { return output; }
 
     @Override
     public String getName() {
@@ -39,8 +42,14 @@ public class NOTGate implements StateChanger{
     @Override
     public Image getImage() { return image; }
 
+//    @Override
+//    public Integer getDelay() { return propDelay; }
+
+//    @Override
+//    public void updateState(Boolean state) { /* pass */ }
+
     @Override
-    public void updateState(Boolean state) { /* pass */ }
+    public void updateState(Integer state) { /* pass */ }
 
     // calculates state depending on the square to its left
     @Override
@@ -48,10 +57,13 @@ public class NOTGate implements StateChanger{
         if (app.getWorkSpace().getGridCell(gridCell - 1).isFilled() &&
                 (app.getWorkSpace().getGridCell(gridCell - 1).getStateChanger().getName().equals("Horizontal") ||
                 app.getWorkSpace().getGridCell(gridCell - 1).getStateChanger().getName().equals("Toggle"))) {
-            Boolean input = app.getWorkSpace().getGridCell(gridCell - 1).getOutput();
-            output = !input;
+//            Boolean input = app.getWorkSpace().getGridCell(gridCell - 1).getOutput();
+            Integer input = app.getWorkSpace().getGridCell(gridCell - 1).getOutput();
+      //      propDelay = app.getWorkSpace().getGridCell(gridCell - 1).getDelay();
+            output = input ^ 1;
         } else
-            output = false;
+            output = -1;
+
     }
 
     @Override
@@ -70,7 +82,8 @@ public class NOTGate implements StateChanger{
     @Override
     public void internalize(int version, DataInputStream in) throws IOException {
         gridCell = (Integer) Util.readObject(in);
-        output = (Boolean) Util.readObject(in);
+        //output = (Boolean) Util.readObject(in);
+        output = (Integer) Util.readObject(in);
         name = (String) Util.readObject(in);
         image = (Image) Util.readObject(in);
     }
