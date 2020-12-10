@@ -2,6 +2,7 @@ package org.ecs160.a2;
 import com.codename1.ui.util.Resources;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class ORGate extends Component {
     public ORGate() {}
@@ -17,20 +18,12 @@ public class ORGate extends Component {
     // calculates state depending on the square to its left and the square directly above it
     @Override
     public void calculateOutput(formApp app) {
-        ArrayList<Integer> inputs = new ArrayList<Integer>();
-        ArrayList<Integer> delays = new ArrayList<Integer>();
-        if (app.getWorkSpace().getGridCell(gridCell - 1).isFilled()) {// left
+        List<Integer> inputs = getInputs(app);
+        List<Integer> delays = new ArrayList<>();
 
-            inputs.add(app.getWorkSpace().getGridCell(gridCell - 1).getOutput());
-            //    delays.add(app.getWorkSpace().getGridCell(gridCell - 1).getDelay());
+        if (inputs.size() == 2){
+            output = inputs.get(0) | inputs.get(1);
         }
-        if (app.getWorkSpace().getGridCell(gridCell - 8).isFilled() // top and top isn't a horizontal wire
-                && !app.getWorkSpace().getGridCell(gridCell - 8).getComponent().getName().equals("Horizontal")) {
-            inputs.add(app.getWorkSpace().getGridCell(gridCell - 8).getOutput());
-            //     delays.add(app.getWorkSpace().getGridCell(gridCell - 1).getDelay());
-        }
-
-        if (inputs.size() == 2) output = inputs.get(0) | inputs.get(1);
         else output = -1;
       //  propDelay = Collections.max(delays);
     }

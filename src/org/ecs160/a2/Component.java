@@ -34,7 +34,7 @@ public abstract class Component implements Externalizable {
     public Image getImage() { return image; }
 
     public void updateState(Integer state) {
-        // FIXME: why is this pass??? Should we just remove this?
+        // FIXME: perhaps bad code practice. updateState() only used for Peripherals
     }
 
     public List<Integer> getInputs(formApp app) {
