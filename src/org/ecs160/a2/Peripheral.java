@@ -7,20 +7,22 @@ import com.codename1.ui.util.Resources;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
-public class Peripheral implements StateChanger {
+public class Peripheral extends Component {
 
     private Resources r;
     private Integer gridCell;
-    private Boolean output = false;
     private String name;
     private Image image;
+    private Integer output = 0; //red by default; green = 1; blue = 0
 
     public Peripheral(Integer gridCell, String name) {
         try { r = Resources.open("/theme.res"); }
         catch (IOException e) { e.printStackTrace(); }
         this.gridCell = gridCell;
         this.name = name;
+        delay = 0;
     }
 
     public Peripheral () {
@@ -28,8 +30,7 @@ public class Peripheral implements StateChanger {
         catch (IOException e) { e.printStackTrace(); }
     }
 
-    @Override
-    public Boolean getOutput() {
+    public Integer getOutput() {
         return output;
     }
 
@@ -43,32 +44,32 @@ public class Peripheral implements StateChanger {
         return image;
     }
 
-    // this function is primarily used for the toggle since we need to change its state externally
     @Override
-    public void updateState(Boolean state) {
+    public void updateState(Integer state) {
         output = state;
     }
 
-    // calculates output depending on grid cell positions
     @Override
     public void calculateOutput(formApp app) {
-        // switch statement to calculate output
         switch(name) {
             case "Toggle":
                 break;
             case "LED":
             case "Horizontal":
             case "9:30":
-                if (app.getWorkSpace().getGridCell(gridCell - 1).isFilled())
+                if (app.getWorkSpace().getGridCell(gridCell - 1) != null &&
+                        app.getWorkSpace().getGridCell(gridCell - 1).isFilled())
                     output = app.getWorkSpace().getGridCell(gridCell - 1).getOutput();
                 else
-                    output = false;
+                    output = -1;
                 break;
-            default:
-                if (app.getWorkSpace().getGridCell(gridCell - 8).isFilled())
+            default: // vertical
+                if (app.getWorkSpace().getGridCell(gridCell - 8) != null &&
+                        app.getWorkSpace().getGridCell(gridCell - 8).isFilled()
+                        && !(app.getWorkSpace().getGridCell(gridCell - 8).getComponent().getName().equals("Horizontal")))
                     output = app.getWorkSpace().getGridCell(gridCell - 8).getOutput();
                 else
-                    output = false;
+                    output = -1;
         }
         setImage(app);
     }
@@ -89,7 +90,7 @@ public class Peripheral implements StateChanger {
     @Override
     public void internalize(int version, DataInputStream in) throws IOException {
         gridCell = (Integer) Util.readObject(in);
-        output = (Boolean) Util.readObject(in);
+        output = (Integer) Util.readObject(in);
         name = (String) Util.readObject(in);
         image = (Image) Util.readObject(in);
     }
@@ -102,7 +103,7 @@ public class Peripheral implements StateChanger {
     private void setImage(formApp app) {
         switch(name) {
             case "Toggle":
-                if (output) {
+                if (output == 1) {
                     image = r.getImage("toggle_on.png");
                     app.getWorkSpace().getGridCell(gridCell).getAllStyles().setFgColor(0x01FF15);
                 }
@@ -112,7 +113,7 @@ public class Peripheral implements StateChanger {
                 }
                 break;
             case "LED":
-                if (output) {
+                if (output == 1) {
                     image = r.getImage("green_led.png");
                     app.getWorkSpace().getGridCell(gridCell).getAllStyles().setFgColor(0x01FF15);
                 }
@@ -122,13 +123,41 @@ public class Peripheral implements StateChanger {
                 }
                 break;
             case "Vertical":
-                image = r.getImage("vertical.png");
+
+                if (output == 1) {
+                    image = r.getImage("green_vertical.png");
+                }
+                else if (output == 0){
+                    image = r.getImage("blue_vertical.png");
+                }
+                else {
+                    image = r.getImage("red_vertical.png");
+                }
                 break;
             case "Horizontal":
-                image = r.getImage("horizontal.png");
+
+                if (output == 1) {
+                    image = r.getImage("green_horizontal.png");
+                }
+                else if (output == 0){
+                    image = r.getImage("blue_horizontal.png");
+                }
+                else {
+                    image = r.getImage("red_horizontal.png");
+                }
                 break;
             default:
-                image = r.getImage("nine_thirty.png");
+
+                if (output == 1) {
+                    image = r.getImage("green_nine_thirty.png");
+                }
+                else if (output == 0){
+                    image = r.getImage("blue_nine_thirty.png");
+                }
+                else {
+                    image = r.getImage("red_nine_thirty.png");
+                }
+                break;
         }
     }
 }

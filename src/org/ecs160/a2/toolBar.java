@@ -24,7 +24,7 @@ public class toolBar extends Container {
 
     public void initToolBarButtons() {
         refreshForm();
-        buttons = new Hashtable<String, CustomizedNav>();
+        buttons = new Hashtable<>();
         this.setLayout(new GridLayout(1, 10));
         this.getAllStyles().setBgColor(0x686bb3);
         this.getAllStyles().setBgTransparency(255);

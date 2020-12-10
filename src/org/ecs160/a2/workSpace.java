@@ -11,7 +11,7 @@ import java.util.Hashtable;
 public class workSpace extends Container {
 
             private Integer[] buttonNames;
-            private Hashtable<Integer, CustomizedButton> buttons = new Hashtable<Integer, CustomizedButton>();
+            private Hashtable<Integer, CustomizedButton> buttons = new Hashtable<>();
 
             static {
                 Util.register("AND", ANDGate.class);

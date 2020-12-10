@@ -11,15 +11,14 @@ import com.codename1.ui.plaf.Style;
 import java.util.Hashtable;
 
 public class menu extends Container {
-    private String[] topRow =
-            { "CLEAR", "TRASH"};
+    private String[] topRow = { "CLEAR", "TRASH"};
 
     // Numeric is for number input
-    TextField propagation_delay = new TextField("", "Prop. Delay", 5, TextArea.NUMERIC);
+    private TextField propagationDelay = new TextField("", "Prop. Delay", 5, TextArea.NUMERIC);
 
     private String botRow = "Selected Tool";
 
-    private Hashtable<String, CustomizedMenu> buttons = new Hashtable<String, CustomizedMenu>();
+    private Hashtable<String, CustomizedMenu> buttons = new Hashtable<>();
     public menu() {
         super();
         this.setLayout(new GridLayout(2, 1));
@@ -38,7 +37,7 @@ public class menu extends Container {
 
         Container bot_row = new Container(new GridLayout(1, 2));
 
-        bot_row.add(propagation_delay);
+        bot_row.add(propagationDelay);
         CustomizedMenu bSpc = new CustomizedMenu(botRow);
         buttons.put(botRow, bSpc);
         bot_row.add(bSpc);
@@ -49,4 +48,8 @@ public class menu extends Container {
 
     public void updateGateSelected(String s) { buttons.get("Selected Tool").setText(s); }
     public CustomizedMenu getButton(String s) { return buttons.get(s); }
+    public String getPropagationDelay() { return propagationDelay.getText(); }
+    public void setPropagationDelay(String s) { propagationDelay.setText(s);}
+    public TextField getTextField()  { return propagationDelay; }
+
 }

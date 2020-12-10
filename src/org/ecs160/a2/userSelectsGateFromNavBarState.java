@@ -1,9 +1,7 @@
 package org.ecs160.a2;
 
 import com.codename1.io.Storage;
-import com.codename1.io.Util;
 import com.codename1.ui.Button;
-import com.codename1.ui.events.ActionEvent;
 import com.codename1.ui.events.ActionListener;
 
 public class userSelectsGateFromNavBarState implements MobiLogicState {
@@ -31,20 +29,18 @@ public class userSelectsGateFromNavBarState implements MobiLogicState {
     // takes care of the case: user wants to place the gate they've selected from the nav-bar on the workspace
     private void attachActionListenersToGrid (MobiLogicContext context) {
         for (Integer key: app.getWorkSpace().getWorkSpaceMap().keySet()) {
-            app.getWorkSpace().getGridCell(key).addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent evt) {
-                    removeActionListeners();
-                    app.getWorkSpace().getGridCell(key).addComponent(app, userSelectedComponent);
-                    app.getMainMenu().updateGateSelected("Selected Tool");
-                    context.setState(new InitState(app));
-                    context.getState().computeAction(context);
-                }
+            app.getWorkSpace().getGridCell(key).addActionListener(evt -> {
+                removeActionListeners();
+                app.getWorkSpace().getGridCell(key).addComponent(app, userSelectedComponent);
+                app.getMainMenu().updateGateSelected("Selected Tool");
+                context.setState(new InitState(app));
+                context.getState().computeAction(context);
             });
         }
     }
 
     private void refreshScreen() {
+        app.getMainMenu().getTextField().clear();
         for (int key = 0; key < 96; key++) {
             app.getWorkSpace().getGridCell(key).unhighlightGridCell();
             app.getWorkSpace().getGridCell(key).updateState(app);
@@ -62,7 +58,7 @@ public class userSelectsGateFromNavBarState implements MobiLogicState {
     private void removeActionListener(Button button) {
         if (button != null && !button.getListeners().isEmpty()) {
             for (int i = 0; i < button.getListeners().toArray().length; i++) {
-                button.removeActionListener((ActionListener) button.getListeners().toArray()[i]);
+                button.removeActionListener((ActionListener<?>) button.getListeners().toArray()[i]);
             }
         }
     }

@@ -1,9 +1,7 @@
 package org.ecs160.a2;
 
 import com.codename1.io.Storage;
-import com.codename1.io.Util;
 import com.codename1.ui.Button;
-import com.codename1.ui.events.ActionEvent;
 import com.codename1.ui.events.ActionListener;
 
 public class userSelectsWireMenuState implements MobiLogicState {
@@ -33,15 +31,12 @@ public class userSelectsWireMenuState implements MobiLogicState {
     // takes care of the case: user wants to go back to normal nav-bar
     private void backFunctionality(MobiLogicContext context) {
         if (app.getToolBar().getButton("Back").getListeners() == null) {
-            app.getToolBar().getButton("Back").addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent evt) {
-                    removeActionListeners();
-                    app.getToolBar().initToolBarButtons();
-                    app.show();
-                    context.setState(new InitState(app));
-                    context.getState().computeAction(context);
-                }
+            app.getToolBar().getButton("Back").addActionListener(evt -> {
+                removeActionListeners();
+                app.getToolBar().initToolBarButtons();
+                app.show();
+                context.setState(new InitState(app));
+                context.getState().computeAction(context);
             });
         }
     }
@@ -57,15 +52,12 @@ public class userSelectsWireMenuState implements MobiLogicState {
     // changes state to userSelectsWireState when the user selects a wire
     private void userSelectsWireEvent(CustomizedNav button, MobiLogicContext context) {
         if (button.getListeners() == null) {
-            button.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent evt) {
-                    removeActionListeners();
-                    String userSelectedComponent = button.getName();
-                    app.getMainMenu().updateGateSelected(userSelectedComponent + " wire");
-                    context.setState(new userSelectsWireState(app, userSelectedComponent));
-                    context.getState().computeAction(context);
-                }
+            button.addActionListener(evt -> {
+                removeActionListeners();
+                String userSelectedComponent = button.getName();
+                app.getMainMenu().updateGateSelected(userSelectedComponent + " wire");
+                context.setState(new userSelectsWireState(app, userSelectedComponent));
+                context.getState().computeAction(context);
             });
         }
     }
@@ -74,19 +66,17 @@ public class userSelectsWireMenuState implements MobiLogicState {
     // takes care of the case that the user wants to select another grid cell from the workspace
     private void userSelectsFromGridEvent(MobiLogicContext context) {
         for (Integer key: app.getWorkSpace().getWorkSpaceMap().keySet()) {
-            app.getWorkSpace().getGridCell(key).addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent evt) {
-                    removeActionListeners();
-                    Integer userSelectedGridCell = app.getWorkSpace().getGridCell(key).getCell();
-                    context.setState(new userSelectsFromGridState(app, userSelectedGridCell));
-                    context.getState().computeAction(context);
-                }
+            app.getWorkSpace().getGridCell(key).addActionListener(evt -> {
+                removeActionListeners();
+                Integer userSelectedGridCell = app.getWorkSpace().getGridCell(key).getCell();
+                context.setState(new userSelectsFromGridState(app, userSelectedGridCell));
+                context.getState().computeAction(context);
             });
         }
     }
 
     private void refreshScreen() {
+        app.getMainMenu().getTextField().clear();
         for (int key = 0; key < 96; key++) {
             app.getWorkSpace().getGridCell(key).unhighlightGridCell();
             app.getWorkSpace().getGridCell(key).updateState(app);
@@ -104,7 +94,7 @@ public class userSelectsWireMenuState implements MobiLogicState {
     private void removeActionListener(Button button) {
         if (button != null && !button.getListeners().isEmpty()) {
             for (int i = 0; i < button.getListeners().toArray().length; i++) {
-                button.removeActionListener((ActionListener) button.getListeners().toArray()[i]);
+                button.removeActionListener((ActionListener<?>) button.getListeners().toArray()[i]);
             }
         }
     }
