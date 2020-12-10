@@ -24,15 +24,12 @@ public class InitState implements MobiLogicState{
     // attaches an action listener to the "clear" button to wipe components from every grid cell
     private void clearBoardFunctionality() {
         if (app.getMainMenu().getButton("CLEAR").getListeners() == null) {
-            app.getMainMenu().getButton("CLEAR").addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent evt) {
-                    for (Integer key : app.getWorkSpace().getWorkSpaceMap().keySet()) {
-                        app.getWorkSpace().getGridCell(key).removeComponent();
-                    }
-                    Storage.getInstance().writeObject("workspace", app.getWorkSpace().getWorkSpaceMap());
-                    app.show(); // this line refreshes the screen
+            app.getMainMenu().getButton("CLEAR").addActionListener(evt -> {
+                for (Integer key : app.getWorkSpace().getWorkSpaceMap().keySet()) {
+                    app.getWorkSpace().getGridCell(key).removeComponent();
                 }
+                Storage.getInstance().writeObject("workspace", app.getWorkSpace().getWorkSpaceMap());
+                app.show(); // this line refreshes the screen
             });
         }
     }
@@ -52,15 +49,12 @@ public class InitState implements MobiLogicState{
     // keeps track of user-selected gate and switches to userSelectsGateFromNavBarState
     private void userSelectsGateFromNavBarEvent(CustomizedNav button, MobiLogicContext context) {
         if (button.getListeners() == null) {
-            button.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent evt) {
-                    removeActionListeners();
-                    String userSelectedComponent = button.getName();
-                    app.getMainMenu().updateGateSelected(userSelectedComponent);
-                    context.setState(new userSelectsGateFromNavBarState(app, userSelectedComponent));
-                    context.getState().computeAction(context);
-                }
+            button.addActionListener(evt -> {
+                removeActionListeners();
+                String userSelectedComponent = button.getName();
+                app.getMainMenu().updateGateSelected(userSelectedComponent);
+                context.setState(new userSelectsGateFromNavBarState(app, userSelectedComponent));
+                context.getState().computeAction(context);
             });
         }
     }
@@ -68,15 +62,12 @@ public class InitState implements MobiLogicState{
     // keeps track of user-selected peripheral (LED/toggle) and switches to userSelectsPeripheralsFromNavBarState
     private void userSelectsPeripheralsFromNavBarEvent(CustomizedNav button, MobiLogicContext context) {
         if (button.getListeners() == null) {
-            button.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent evt) {
-                    removeActionListeners();
-                    String userSelectedComponent = button.getName();
-                    app.getMainMenu().updateGateSelected(userSelectedComponent);
-                    context.setState(new userSelectsPeripheralsFromNavBarState(app, userSelectedComponent));
-                    context.getState().computeAction(context);
-                }
+            button.addActionListener(evt -> {
+                removeActionListeners();
+                String userSelectedComponent = button.getName();
+                app.getMainMenu().updateGateSelected(userSelectedComponent);
+                context.setState(new userSelectsPeripheralsFromNavBarState(app, userSelectedComponent));
+                context.getState().computeAction(context);
             });
         }
     }
@@ -84,13 +75,10 @@ public class InitState implements MobiLogicState{
     // switches to userSelectsWireMenu state
     private void userSelectsWireFromNavBarEvent(CustomizedNav button, MobiLogicContext context) {
         if (button.getListeners() == null) {
-            button.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent evt) {
-                    removeActionListeners();
-                    context.setState(new userSelectsWireMenuState(app));
-                    context.getState().computeAction(context);
-                }
+            button.addActionListener(evt -> {
+                removeActionListeners();
+                context.setState(new userSelectsWireMenuState(app));
+                context.getState().computeAction(context);
             });
         }
     }
@@ -98,14 +86,11 @@ public class InitState implements MobiLogicState{
     // keeps track of user-selected grid cell and switches to userSelectsFromGridState
     private void userSelectsFromGridEvent(MobiLogicContext context) {
         for (Integer key: app.getWorkSpace().getWorkSpaceMap().keySet()) {
-            app.getWorkSpace().getGridCell(key).addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent evt) {
-                    removeActionListeners();
-                    Integer userSelectedGridCell = app.getWorkSpace().getGridCell(key).getCell();
-                    context.setState(new userSelectsFromGridState(app, userSelectedGridCell));
-                    context.getState().computeAction(context);
-                }
+            app.getWorkSpace().getGridCell(key).addActionListener(evt -> {
+                removeActionListeners();
+                Integer userSelectedGridCell = app.getWorkSpace().getGridCell(key).getCell();
+                context.setState(new userSelectsFromGridState(app, userSelectedGridCell));
+                context.getState().computeAction(context);
             });
         }
     }
@@ -132,7 +117,7 @@ public class InitState implements MobiLogicState{
     private void removeActionListener(Button button) {
         if (button != null && !button.getListeners().isEmpty()) {
             for (int i = 0; i < button.getListeners().toArray().length; i++) {
-                button.removeActionListener((ActionListener) button.getListeners().toArray()[i]);
+                button.removeActionListener((ActionListener<?>) button.getListeners().toArray()[i]);
             }
         }
     }

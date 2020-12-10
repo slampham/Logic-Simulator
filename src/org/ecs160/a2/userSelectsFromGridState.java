@@ -1,9 +1,7 @@
 package org.ecs160.a2;
 
 import com.codename1.io.Storage;
-import com.codename1.io.Util;
 import com.codename1.ui.Button;
-import com.codename1.ui.events.ActionEvent;
 import com.codename1.ui.events.ActionListener;
 
 public class userSelectsFromGridState implements MobiLogicState{
@@ -34,14 +32,11 @@ public class userSelectsFromGridState implements MobiLogicState{
     // takes care of the case that the user wants to select another grid cell from the workspace
     private void userSelectsFromGridAgainState(MobiLogicContext context) {
         for (Integer key: app.getWorkSpace().getWorkSpaceMap().keySet()) {
-            app.getWorkSpace().getGridCell(key).addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent evt) {
-                    removeActionListeners();
-                    Integer userSelectedGridCell = app.getWorkSpace().getGridCell(key).getCell();
-                    context.setState(new userSelectsFromGridState(app, userSelectedGridCell));
-                    context.getState().computeAction(context);
-                }
+            app.getWorkSpace().getGridCell(key).addActionListener(evt -> {
+                removeActionListeners();
+                Integer userSelectedGridCell = app.getWorkSpace().getGridCell(key).getCell();
+                context.setState(new userSelectsFromGridState(app, userSelectedGridCell));
+                context.getState().computeAction(context);
             });
         }
     }
@@ -49,10 +44,13 @@ public class userSelectsFromGridState implements MobiLogicState{
     // implements toggle functionality (turning it on/off)
     private void controlToggle() {
         if (app.getWorkSpace().getGridCell(userSelectedGridCell).isFilled() &&
-                app.getWorkSpace().getGridCell(userSelectedGridCell).getStateChanger().getName().equals("Toggle")) {
-            Boolean previousState = app.getWorkSpace().getGridCell(userSelectedGridCell).getOutput();
-            app.getWorkSpace().getGridCell(userSelectedGridCell).getStateChanger().updateState(!previousState);
-            app.getWorkSpace().getGridCell(userSelectedGridCell).getStateChanger().calculateOutput(app);
+                app.getWorkSpace().getGridCell(userSelectedGridCell).getComponent().getName().equals("Toggle")) {
+            //Boolean previousState = app.getWorkSpace().getGridCell(userSelectedGridCell).getOutput();
+            Integer previousState = app.getWorkSpace().getGridCell(userSelectedGridCell).getOutput();
+            System.out.println("This is previous state: " + previousState);
+
+            app.getWorkSpace().getGridCell(userSelectedGridCell).getComponent().updateState((previousState ^ 1));
+            app.getWorkSpace().getGridCell(userSelectedGridCell).getComponent().calculateOutput(app);
         }
     }
 
@@ -70,17 +68,46 @@ public class userSelectsFromGridState implements MobiLogicState{
         if (app.getMainMenu().getButton("TRASH").getListeners() != null) {
             removeActionListener(app.getMainMenu().getButton("TRASH"));
         }
-        app.getMainMenu().getButton("TRASH").addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent evt) {
-                removeActionListeners();
-                app.getWorkSpace().getGridCell(userSelectedGridCell).removeComponent();
-                app.show();
-                context.setState(new InitState(app));
-                context.getState().computeAction(context);
-            }
+        app.getMainMenu().getButton("TRASH").addActionListener(evt -> {
+            removeActionListeners();
+            app.getWorkSpace().getGridCell(userSelectedGridCell).removeComponent();
+            app.show();
+            context.setState(new InitState(app));
+            context.getState().computeAction(context);
         });
     }
+
+    //FIXME:
+    // need to refactor gates to superclass in order to cast getStateChanger
+    // need to assign prop delay to selected gate
+//    private void propDelayFunctionality(MobiLogicContext context) {
+//        ArrayList<String> Gates = new ArrayList<String>(
+//                Arrays.asList("AND Gate", "NAND Gate", "NOR Gate", "XNOR Gate",
+//                        "OR Gate", "NOT Gate", "XOR Gate"));
+//
+//        if (app.getMainMenu().propagation_delay.getDoneListener() != null) {
+//            removeActionListener(app.getMainMenu().propagation_delay);
+//        }
+//        // determine if grid cell selected is gate
+//        // extract data with getText()
+//        // clear text with clear() once user clicks somewhere else
+//        app.getMainMenu().propagation_delay.setDoneListener(new ActionListener() {
+//            @Override
+//            public void actionPerformed(ActionEvent evt) {
+//                removeActionListeners();
+//
+//                //checking if the grid cell selected is a gate
+//                if (Gates.contains(app.getWorkSpace().getGridCell(userSelectedGridCell).getStateChanger().getName())) {
+//                    String propDelay = app.getMainMenu().propagation_delay.getText();
+//
+//                }
+//                app.getWorkSpace().getGridCell(userSelectedGridCell).removeComponent();
+//                app.show();
+//                context.setState(new InitState(app));
+//                context.getState().computeAction(context);
+//            }
+//        });
+//    }
 
     private void highlightUserSelectedGridCell() {
         app.getWorkSpace().getGridCell(userSelectedGridCell).highlightGridCell();
@@ -97,7 +124,7 @@ public class userSelectsFromGridState implements MobiLogicState{
     private void removeActionListener(Button button) {
         if (button != null && !button.getListeners().isEmpty()) {
             for (int i = 0; i < button.getListeners().toArray().length; i++) {
-                button.removeActionListener((ActionListener) button.getListeners().toArray()[i]);
+                button.removeActionListener((ActionListener<?>) button.getListeners().toArray()[i]);
             }
         }
     }
