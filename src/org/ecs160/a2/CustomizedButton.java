@@ -168,7 +168,6 @@ public class CustomizedButton extends Button implements Externalizable {
         component = (Component) Util.readObject(in);
         cellName = (Integer) Util.readObject(in);
         filled = (Boolean) Util.readObject(in);
-        //output = (Boolean) Util.readObject(in);
         output = (Integer) Util.readObject(in);
     }
 

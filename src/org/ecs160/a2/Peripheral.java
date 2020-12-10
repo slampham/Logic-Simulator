@@ -12,7 +12,6 @@ public class Peripheral extends Component {
 
     private Resources r;
     private Integer gridCell;
-  //  private Boolean output = false;
     private String name;
     private Image image;
     private Integer output = 0; //red by default; green = 1; blue = 0
@@ -29,10 +28,6 @@ public class Peripheral extends Component {
         catch (IOException e) { e.printStackTrace(); }
     }
 
-//    @Override
-//    public Boolean getOutput() {
-//        return output;
-//    }
     public Integer getOutput() {
         return output;
     }
@@ -47,20 +42,13 @@ public class Peripheral extends Component {
         return image;
     }
 
-    // this function is primarily used for the toggle since we need to change its state externally
-//    @Override
-//    public void updateState(Boolean state) {
-//        output = state;
-//    }
     @Override
     public void updateState(Integer state) {
         output = state;
     }
 
-    // calculates output depending on grid cell positions
     @Override
     public void calculateOutput(formApp app) {
-        // switch statement to calculate output
         switch(name) {
             case "Toggle":
                 break;
@@ -70,7 +58,6 @@ public class Peripheral extends Component {
                 if (app.getWorkSpace().getGridCell(gridCell - 1).isFilled())
                     output = app.getWorkSpace().getGridCell(gridCell - 1).getOutput();
                 else
-                    //output = false;
                     output = -1;
                 break;
             default: // vertical
@@ -78,7 +65,6 @@ public class Peripheral extends Component {
                         && !(app.getWorkSpace().getGridCell(gridCell - 8).getComponent().getName().equals("Horizontal")))
                     output = app.getWorkSpace().getGridCell(gridCell - 8).getOutput();
                 else
-                    //output = false;
                     output = -1;
         }
         setImage(app);
