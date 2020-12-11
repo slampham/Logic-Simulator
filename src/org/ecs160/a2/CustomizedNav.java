@@ -21,11 +21,14 @@ public class CustomizedNav extends Button {
         Stroke borderStroke = new Stroke(2, Stroke.CAP_SQUARE, Stroke.JOIN_MITER, 1);
         this.getAllStyles().setFgColor(0xffffff);
 
+        // rounded edges for each button
         this.getUnselectedStyle().setBorder(RoundRectBorder.create().
                 strokeColor(0).
                 strokeOpacity(120).
                 stroke(borderStroke));
 
+        // the display and customization of the bottom bar for
+        // components the user can interact with
         this.getAllStyles().setBgColor(0x000000);
         this.getAllStyles().setBgTransparency(255);
         this.getAllStyles().setPadding(2,2,2,2);

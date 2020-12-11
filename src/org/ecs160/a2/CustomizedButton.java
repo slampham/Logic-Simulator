@@ -16,6 +16,8 @@ public class CustomizedButton extends Button implements Externalizable {
     private Resources r;
     private Integer delay = 0;
 
+
+    // class created for the graph paper display
     public CustomizedButton(Integer txt) {
         super(Integer.toString(txt));
         try { r = Resources.open("/theme.res"); }
@@ -26,6 +28,8 @@ public class CustomizedButton extends Button implements Externalizable {
         this.getAllStyles().setBgTransparency(255);
         this.getAllStyles().setMargin(3, 3, 3,3);
 
+        // initialization of white numbers to have default button spacing
+        // for each white square of graph paper
         cellName = txt;
     }
 
@@ -96,6 +100,7 @@ public class CustomizedButton extends Button implements Externalizable {
         filled = false;
     }
 
+    // assigning image each component on the screen
     private Image chooseComponent (formApp app, String s) {
         Image component;
         switch(s) {

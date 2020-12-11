@@ -18,6 +18,7 @@ public class CustomizedMenu extends Button {
         super(txt);
         Stroke borderStroke = new Stroke(2, Stroke.CAP_SQUARE, Stroke.JOIN_MITER, 1);
 
+        // customizing the "CLEAR", "TRASH", and "Gates appear here" components
         if (txt.equals("Gates Appear Here")) {
             this.getAllStyles().setFgColor(0x000000);
             this.getAllStyles().setBgColor(0xffffff);
@@ -26,6 +27,7 @@ public class CustomizedMenu extends Button {
             this.getAllStyles().setBgColor(0x000000);
         }
 
+        // rounded edges for the buttons
         this.getUnselectedStyle().setBorder(RoundRectBorder.create().
                 strokeColor(0).
                 strokeOpacity(120).

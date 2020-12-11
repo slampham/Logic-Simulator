@@ -22,6 +22,9 @@ public class toolBar extends Container {
         initToolBarButtons();
     }
 
+    // separate component bars to switch out based off what button is pressed
+
+    // layout for the tool bar on the bottom accessed from the "back" button
     public void initToolBarButtons() {
         refreshForm();
         buttons = new Hashtable<>();
@@ -36,6 +39,7 @@ public class toolBar extends Container {
         this.getAllStyles().setPadding(100,100,0,0);
     }
 
+    // layout for the wire bar (accessed from "wire" button
     public void initWireBarButtons() {
         refreshForm();
         buttons = new Hashtable<String, CustomizedNav>();
@@ -51,6 +55,7 @@ public class toolBar extends Container {
     public Hashtable<String, CustomizedNav> getToolBarMap() { return buttons; }
     public CustomizedNav getButton(String s) { return buttons.get(s); }
 
+    // used to update the bottom bar form/ tool bar
     private void refreshForm() {
         if (buttons != null) {
             for (String key : buttons.keySet()) {
