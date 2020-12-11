@@ -14,7 +14,6 @@ public class XNORGate extends Component {
         this.gridCell = gridCell;
         this.name = name;
         image = r.getImage("xnor.png");
-        delay = 0;
     }
 
     // calculates state depending on the square to its left and the square directly above it
@@ -26,6 +25,15 @@ public class XNORGate extends Component {
             output = (inputs.get(0) ^ inputs.get(1)) ^ 1;
         }
         else output = -1;
+    }
+
+    @Override
+    public void calculateDelay(formApp app) {
+        List<Integer> inputs = getDelayInputs(app);
+        if (inputs.size() == 2){
+            Integer newDelay = delay + Math.max(inputs.get(0), inputs.get(1));
+            app.getWorkSpace().getGridCell(gridCell).setDelay(newDelay);
+        } else app.getWorkSpace().getGridCell(gridCell).setDelay(delay);
     }
 
     @Override

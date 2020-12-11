@@ -7,6 +7,7 @@ import com.codename1.ui.util.Resources;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class Peripheral extends Component {
@@ -22,7 +23,6 @@ public class Peripheral extends Component {
         catch (IOException e) { e.printStackTrace(); }
         this.gridCell = gridCell;
         this.name = name;
-        delay = 0;
     }
 
     public Peripheral () {
@@ -72,6 +72,30 @@ public class Peripheral extends Component {
                     output = -1;
         }
         setImage(app);
+    }
+
+    @Override
+    public void calculateDelay(formApp app) {
+        switch(name) {
+            case "Toggle":
+            case "LED":
+                break;
+            case "Horizontal":
+            case "9:30":
+                if (app.getWorkSpace().getGridCell(gridCell - 1) != null &&
+                        app.getWorkSpace().getGridCell(gridCell - 1).isFilled()) {
+                    Integer newDelay = Math.max(app.getWorkSpace().getGridCell(gridCell - 1).getDelay(), delay);
+                    app.getWorkSpace().getGridCell(gridCell).setDelay(newDelay);
+                }
+                break;
+            default: // vertical
+                if (app.getWorkSpace().getGridCell(gridCell - 8) != null &&
+                        app.getWorkSpace().getGridCell(gridCell - 8).isFilled()
+                        && !(app.getWorkSpace().getGridCell(gridCell - 8).getComponent().getName().equals("Horizontal"))) {
+                    Integer newDelay = Math.max(app.getWorkSpace().getGridCell(gridCell - 8).getDelay(), delay);
+                    app.getWorkSpace().getGridCell(gridCell).setDelay(newDelay);
+                }
+        }
     }
 
     @Override

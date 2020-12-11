@@ -44,6 +44,7 @@ public class userSelectsFromGridState implements MobiLogicState{
             app.getWorkSpace().getGridCell(key).addActionListener(evt -> {
                 removeActionListeners();
                 Integer userSelectedGridCell = app.getWorkSpace().getGridCell(key).getCell();
+                System.out.println(app.getWorkSpace().getGridCell(userSelectedGridCell).getDelay());
                 context.setState(new userSelectsFromGridState(app, userSelectedGridCell));
                 context.getState().computeAction(context);
             });
@@ -61,36 +62,10 @@ public class userSelectsFromGridState implements MobiLogicState{
         }
     }
 
-    /*private void propagationDelay() {
-        // save gates to delay
-        ArrayList<Integer> gates2Delay = new ArrayList<Integer>();
-        for (int key = 0; key < 96; key++) {
-            if (app.getWorkSpace().getGridCell(key).getComponent() != null &&
-                    gateList.contains(app.getWorkSpace().getGridCell(key).getComponent().getName())) {
-                gates2Delay.add(key);
-            }
-        }
-        // update circuits until gates to delay
-        for (int key = 0; key < 96; key++) {
-            if (gates2Delay.contains(key)) {
-                Timer timer = new Timer();
-                int finalKey = key;
-                timer.schedule(new TimerTask() {
-                    @Override
-                    public void run() {
-                        app.getWorkSpace().getGridCell(finalKey).updateState(app);
-                        app.show();
-                    }
-                }, app.getWorkSpace().getGridCell(key).getComponent().getDelay() * 1000);
-                continue;
-            }
-            app.getWorkSpace().getGridCell(key).updateState(app);
-        }
-    }*/
-
     private void refreshScreen(){
         for (int key = 0; key < 96; key++) {
             app.getWorkSpace().getGridCell(key).unhighlightGridCell();
+            app.getWorkSpace().getGridCell(key).updateDelay(app);
             if (app.getWorkSpace().getGridCell(key).getComponent() != null &&
                     gateList.contains(app.getWorkSpace().getGridCell(key).getComponent().getName())) {
                 Timer timer = new Timer();
@@ -98,17 +73,16 @@ public class userSelectsFromGridState implements MobiLogicState{
                 timer.schedule(new TimerTask() {
                     @Override
                     public void run() {
-                        for (int i = gateKey; i < 95; i++) {
-                            if (app.getWorkSpace().getGridCell(i+1).getComponent() != null &&
-                                    gateList.contains(app.getWorkSpace().getGridCell(i+1).getComponent().getName()))
+                        app.getWorkSpace().getGridCell(gateKey).updateState(app);
+                        for (int i = gateKey + 1; i < 96; i++) {
+                            if (app.getWorkSpace().getGridCell(i).getComponent() != null &&
+                                    gateList.contains(app.getWorkSpace().getGridCell(i).getComponent().getName()))
                                 break;
                             app.getWorkSpace().getGridCell(i).updateState(app);
                         }
                         app.show();
-                        System.out.println(gateKey + ": Timer finished: " + new Date());
                     }
-                }, app.getWorkSpace().getGridCell(key).getComponent().getDelay() * 1000);
-                System.out.println(gateKey + ": Timer started: " + new Date());
+                }, app.getWorkSpace().getGridCell(key).getDelay() * 1000);
                 continue;
             }
             app.getWorkSpace().getGridCell(key).updateState(app);
@@ -140,10 +114,11 @@ public class userSelectsFromGridState implements MobiLogicState{
             app.getMainMenu().getTextField().setDoneListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent evt) {
-                    if (!app.getMainMenu().getPropagationDelay().isEmpty())
+                    if (!app.getMainMenu().getPropagationDelay().isEmpty()) {
                         selectedComp.setDelay(Integer.parseInt(app.getMainMenu().getPropagationDelay()));
-                    else
-                        selectedComp.setDelay(0);
+                        app.getWorkSpace().getGridCell(userSelectedGridCell).updateDelay(app);
+                    }
+                    else selectedComp.setDelay(0);
                 }
             });
         } else {

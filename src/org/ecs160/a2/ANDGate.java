@@ -15,8 +15,9 @@ public class ANDGate extends Component {
         this.name = name;
         this.gridCell = gridCell;
         image = r.getImage("and.png");
-        delay = 0;
     }
+
+
 
     @Override
     public void calculateOutput(formApp app) {
@@ -25,6 +26,15 @@ public class ANDGate extends Component {
             output = inputs.get(0) & inputs.get(1);
         }
         else output = -1;
+    }
+
+    @Override
+    public void calculateDelay(formApp app) {
+        List<Integer> inputs = getDelayInputs(app);
+        if (inputs.size() == 2){
+            Integer newDelay = delay + Math.max(inputs.get(0), inputs.get(1));
+            app.getWorkSpace().getGridCell(gridCell).setDelay(newDelay);
+        } else app.getWorkSpace().getGridCell(gridCell).setDelay(delay);
     }
 
     @Override

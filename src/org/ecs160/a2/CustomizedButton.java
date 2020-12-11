@@ -14,7 +14,7 @@ public class CustomizedButton extends Button implements Externalizable {
     private Boolean filled = false;
     private Integer output = 0;
     private Resources r;
-    //private Integer delay;
+    private Integer delay = 0;
 
     public CustomizedButton(Integer txt) {
         super(Integer.toString(txt));
@@ -50,6 +50,12 @@ public class CustomizedButton extends Button implements Externalizable {
         }
     }
 
+    public void updateDelay(formApp app) {
+        if (component != null) {
+            component.calculateDelay(app);
+        }
+    }
+
     // used to invoke a visual cue when the user selects a particular grid cell
     public void highlightGridCell() {
         this.getAllStyles().setMargin(10, 10, 10,10);
@@ -63,7 +69,9 @@ public class CustomizedButton extends Button implements Externalizable {
     //public Boolean getOutput() { return output; }
     public Integer getOutput() { return output; }
 
-   // public Integer getDelay() { return delay; }
+    public void setDelay(Integer delay) { this.delay = delay; }
+
+    public Integer getDelay() { return delay; }
 
     public Component getComponent() { return component; }
 
@@ -158,6 +166,7 @@ public class CustomizedButton extends Button implements Externalizable {
         Util.writeObject(cellName, out);
         Util.writeObject(filled, out);
         Util.writeObject(output, out);
+        Util.writeObject(delay, out);
     }
 
     @Override
@@ -166,6 +175,7 @@ public class CustomizedButton extends Button implements Externalizable {
         cellName = (Integer) Util.readObject(in);
         filled = (Boolean) Util.readObject(in);
         output = (Integer) Util.readObject(in);
+        delay = (Integer) Util.readObject(in);
     }
 
     @Override

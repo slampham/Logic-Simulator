@@ -22,9 +22,10 @@ public abstract class Component implements Externalizable {
     protected Integer output;
     protected String name;
     protected Image image;
-    protected Integer delay;
+    protected Integer delay = 0;
 
     public abstract void calculateOutput(formApp app);
+    public abstract void calculateDelay(formApp app);
     public abstract int getVersion();
     public abstract String getObjectId();
 
@@ -51,6 +52,20 @@ public abstract class Component implements Externalizable {
                 app.getWorkSpace().getGridCell(gridCell - 8).isFilled() // top and top isn't a horizontal wire
                 && !app.getWorkSpace().getGridCell(gridCell - 8).getComponent().getName().equals("Horizontal")) {
             inputs.add(app.getWorkSpace().getGridCell(gridCell - 8).getOutput());
+        }
+        return inputs;
+    }
+
+    public List<Integer> getDelayInputs(formApp app) {
+        List<Integer> inputs = new ArrayList<>();
+        if (app.getWorkSpace().getGridCell(gridCell - 1) != null &&
+                app.getWorkSpace().getGridCell(gridCell - 1).isFilled()) {// left
+            inputs.add(app.getWorkSpace().getGridCell(gridCell - 1).getDelay());
+        }
+        if (app.getWorkSpace().getGridCell(gridCell - 8) != null &&
+                app.getWorkSpace().getGridCell(gridCell - 8).isFilled() // top and top isn't a horizontal wire
+                && !app.getWorkSpace().getGridCell(gridCell - 8).getComponent().getName().equals("Horizontal")) {
+            inputs.add(app.getWorkSpace().getGridCell(gridCell - 1).getDelay());
         }
         return inputs;
     }
