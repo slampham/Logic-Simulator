@@ -114,7 +114,9 @@ public class userSelectsFromGridState implements MobiLogicState{
             app.getMainMenu().getTextField().setDoneListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent evt) {
-                    if (!app.getMainMenu().getPropagationDelay().isEmpty()) {
+                    if (!app.getMainMenu().getPropagationDelay().isEmpty() &&
+                            isValidInteger(app.getMainMenu().getPropagationDelay()) &&
+                            Integer.parseInt(app.getMainMenu().getPropagationDelay()) >= 0) {
                         selectedComp.setDelay(Integer.parseInt(app.getMainMenu().getPropagationDelay()));
                         app.getWorkSpace().getGridCell(userSelectedGridCell).updateDelay(app);
                     }
@@ -145,5 +147,13 @@ public class userSelectsFromGridState implements MobiLogicState{
                 button.removeActionListener((ActionListener<?>) button.getListeners().toArray()[i]);
             }
         }
+    }
+
+    private Boolean isValidInteger (String s) {
+        try {
+            int temp = Integer.parseInt(s);
+            return true;
+        }
+        catch(NumberFormatException er) { return false; }
     }
 }
