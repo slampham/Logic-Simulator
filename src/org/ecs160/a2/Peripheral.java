@@ -7,8 +7,6 @@ import com.codename1.ui.util.Resources;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 public class Peripheral extends Component {
 
@@ -30,27 +28,22 @@ public class Peripheral extends Component {
         catch (IOException e) { e.printStackTrace(); }
     }
 
-    public Integer getOutput() {
-        return output;
-    }
+    public Integer getOutput() { return output;  }
 
     @Override
-    public String getName() {
-        return name;
-    }
+    public String getName() { return name; }
 
     @Override
-    public Image getImage() {
-        return image;
-    }
+    public Image getImage() { return image; }
 
     @Override
-    public void updateState(Integer state) {
-        output = state;
-    }
+    public void updateState(Integer state) { output = state; }
 
     @Override
     public void calculateOutput(formApp app) {
+        /* Pass the input along from the previous component (gate / wire / led), check if it comes from the top or left,
+        * and set the output. */
+
         switch(name) {
             case "Toggle":
                 break;
@@ -76,6 +69,9 @@ public class Peripheral extends Component {
 
     @Override
     public void calculateDelay(formApp app) {
+        /* Pass the delay along from the previous component (gate), check if it comes from the top or left,
+         * and set the delay. */
+
         switch(name) {
             case "Toggle":
             case "LED":
@@ -98,6 +94,8 @@ public class Peripheral extends Component {
         }
     }
 
+    /* README: Even though data persistence methods were defined in the super class Component, it is required here
+       because Codename One requires child classes to have methods defined inside of it, not inherited. */
     @Override
     public int getVersion() {
         return 0;
@@ -125,6 +123,8 @@ public class Peripheral extends Component {
     }
 
     private void setImage(formApp app) {
+        /* If output == 1, set a green image. If output == 0, set a blue image. If output == -1, set a red image. */
+
         switch(name) {
             case "Toggle":
                 if (output == 1) {

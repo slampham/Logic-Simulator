@@ -22,7 +22,6 @@ public class userSelectsWireState implements MobiLogicState{
     public void computeAction(MobiLogicContext context) {
         refreshScreen();
         attachActionListenersToGrid(context);
-        System.out.println("user selects wire state");
     }
 
     // attaches action listeners to all grid cells

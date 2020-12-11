@@ -2,7 +2,6 @@ package org.ecs160.a2;
 
 import com.codename1.ui.util.Resources;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 public class NANDGate extends Component {

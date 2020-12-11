@@ -22,7 +22,6 @@ public class userSelectsPeripheralsFromNavBarState implements MobiLogicState {
     public void computeAction(MobiLogicContext context) {
         refreshScreen();
         attachActionListenersToGrid(context);
-        System.out.println("user selects peripheral from nav-bar state");
     }
 
     // attaches an action listener to each grid cell, remove on state-change
