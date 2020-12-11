@@ -24,7 +24,7 @@ public class InitState implements MobiLogicState{
         userSelectsFromGridEvent(context);
     }
 
-    // attaches an action listener to the "clear" button to wipe components from every grid cell
+    /* Attaches an action listener to the "clear" button to wipe components from every grid cell. */
     private void clearBoardFunctionality() {
         if (app.getMainMenu().getButton("CLEAR").getListeners() == null) {
             app.getMainMenu().getButton("CLEAR").addActionListener(evt -> {
@@ -37,9 +37,9 @@ public class InitState implements MobiLogicState{
         }
     }
 
-    // attaches action listeners to the toolbar
-    // the action listeners attached to this toolbar are persistent (not removed after every state switch)
-    // that is, this function (and the toolbar) can be used from other states due to persistent action listeners
+    /* Attaches action listeners to the toolbar.
+       The action listeners attached to this toolbar are persistent (not removed after every state switch).
+       That is, this function (and the toolbar) can be used from other states due to persistent action listeners. */
     public void userSelectsFromNavBarEvent(MobiLogicContext context) {
         for (String key: app.getToolBar().getToolBarMap().keySet()) {
             if (!key.equals("Wire") && !key.equals("Toggle") && !key.equals("LED")) // gates
@@ -51,7 +51,7 @@ public class InitState implements MobiLogicState{
         }
     }
 
-    // keeps track of user-selected gate and switches to userSelectsGateFromNavBarState
+    /* Keeps track of user-selected gate and switches to userSelectsGateFromNavBarState. */
     private void userSelectsGateFromNavBarEvent(CustomizedNav button, MobiLogicContext context) {
         if (button.getListeners() == null) {
             button.addActionListener(evt -> {
@@ -64,7 +64,7 @@ public class InitState implements MobiLogicState{
         }
     }
 
-    // keeps track of user-selected peripheral (LED/toggle) and switches to userSelectsPeripheralsFromNavBarState
+    /* Keeps track of user-selected peripheral (LED/toggle) and switches to userSelectsPeripheralsFromNavBarState. */
     private void userSelectsPeripheralsFromNavBarEvent(CustomizedNav button, MobiLogicContext context) {
         if (button.getListeners() == null) {
             button.addActionListener(evt -> {
@@ -77,7 +77,7 @@ public class InitState implements MobiLogicState{
         }
     }
 
-    // switches to userSelectsWireMenu state
+    /* Switches to userSelectsWireMenu state. */
     private void userSelectsWireFromNavBarEvent(CustomizedNav button, MobiLogicContext context) {
         if (button.getListeners() == null) {
             button.addActionListener(evt -> {
@@ -88,7 +88,7 @@ public class InitState implements MobiLogicState{
         }
     }
 
-    // keeps track of user-selected grid cell and switches to userSelectsFromGridState
+    /* Keeps track of user-selected grid cell and switches to userSelectsFromGridState. */
     private void userSelectsFromGridEvent(MobiLogicContext context) {
         for (Integer key: app.getWorkSpace().getWorkSpaceMap().keySet()) {
             app.getWorkSpace().getGridCell(key).addActionListener(evt -> {
@@ -100,7 +100,7 @@ public class InitState implements MobiLogicState{
         }
     }
 
-    // this function updates state by iterating through each individual grid cell
+    /* This function updates state by iterating through each individual grid cell. */
     private void refreshScreen() {
         app.getMainMenu().getTextField().clear();
         for (int key = 0; key < 96; key++) {
@@ -111,15 +111,15 @@ public class InitState implements MobiLogicState{
         app.show();
     }
 
-    // because grid cells have actions listeners that switch functionality depending on state,
-    // this function is used in every function that leads to a state-switch
+    /* Because grid cells have actions listeners that switch functionality depending on state,
+       this function is used in every function that leads to a state-switch. */
     private void removeActionListeners() {
         for (Integer key: app.getWorkSpace().getWorkSpaceMap().keySet()) {
             removeActionListener(app.getWorkSpace().getGridCell(key));
         }
     }
 
-    // removes every single action listener attached to a button
+    /* Removes every single action listener attached to a button. */
     private void removeActionListener(Button button) {
         if (button != null && !button.getListeners().isEmpty()) {
             for (int i = 0; i < button.getListeners().toArray().length; i++) {

@@ -25,8 +25,8 @@ public class userSelectsGateFromNavBarState implements MobiLogicState {
         System.out.println("user selects gate from nav-bar state");
     }
 
-    // attaches an action listener to each grid cell, remove on state-change
-    // takes care of the case: user wants to place the gate they've selected from the nav-bar on the workspace
+    /* Attaches an action listener to each grid cell, remove on state-change.
+       Takes care of the case: user wants to place the gate they've selected from the nav-bar on the workspace. */
     private void attachActionListenersToGrid (MobiLogicContext context) {
         for (Integer key: app.getWorkSpace().getWorkSpaceMap().keySet()) {
             app.getWorkSpace().getGridCell(key).addActionListener(evt -> {
@@ -39,7 +39,7 @@ public class userSelectsGateFromNavBarState implements MobiLogicState {
         }
     }
 
-    // this function updates state by iterating through each individual grid cell
+    /* This function updates state by iterating through each individual grid cell. */
     private void refreshScreen() {
         app.getMainMenu().getTextField().clear();
         for (int key = 0; key < 96; key++) {
@@ -50,15 +50,15 @@ public class userSelectsGateFromNavBarState implements MobiLogicState {
         app.show();
     }
 
-    // because grid cells have actions listeners that switch functionality depending on state,
-    // this function is used in every function that leads to a state-switch
+    /* Because grid cells have actions listeners that switch functionality depending on state,
+       this function is used in every function that leads to a state-switch. */
     private void removeActionListeners() {
         for (Integer key: app.getWorkSpace().getWorkSpaceMap().keySet()) {
             removeActionListener(app.getWorkSpace().getGridCell(key));
         }
     }
 
-    // removes every single action listener attached to a button
+    /* Removes every single action listener attached to a button. */
     private void removeActionListener(Button button) {
         if (button != null && !button.getListeners().isEmpty()) {
             for (int i = 0; i < button.getListeners().toArray().length; i++) {
