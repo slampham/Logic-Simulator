@@ -24,7 +24,6 @@ public class userSelectsWireMenuState implements MobiLogicState {
         backFunctionality(context);
         userSelectsWireEvent(context);
         userSelectsFromGridEvent(context);
-        System.out.println("user selects wire menu state");
     }
 
     /* Attaches an action listener to the "Back" button of the wire menu.

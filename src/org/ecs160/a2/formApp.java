@@ -1,9 +1,7 @@
 
 package org.ecs160.a2;
 
-import com.codename1.ui.Container;
 import com.codename1.ui.Form;
-import com.codename1.ui.Toolbar;
 import com.codename1.ui.layouts.BorderLayout;
 
 public class formApp extends Form {
@@ -11,7 +9,6 @@ public class formApp extends Form {
     private menu mainMenu;
     private workSpace wSpace;
 
-    // TODO: adjust formapp to accept both bars, and toolbar to be the same as wirebar
     public formApp(menu main_menu, workSpace workSpaceRef, toolBar toolBarRef) {
         super("Logism 2.0");
         this.setLayout(new BorderLayout());

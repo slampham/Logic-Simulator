@@ -15,7 +15,7 @@ public class userSelectsFromGridState implements MobiLogicState{
 
     private formApp app;
     private Integer userSelectedGridCell;
-    private ArrayList<String> gateList = new ArrayList<String>(
+    private ArrayList<String> gateList = new ArrayList<>(
             Arrays.asList("AND Gate", "NAND Gate", "NOR Gate", "XNOR Gate",
                     "OR Gate", "NOT Gate", "XOR Gate"));
 
@@ -41,7 +41,6 @@ public class userSelectsFromGridState implements MobiLogicState{
             app.getWorkSpace().getGridCell(key).addActionListener(evt -> {
                 removeActionListeners();
                 Integer userSelectedGridCell = app.getWorkSpace().getGridCell(key).getCell();
-                System.out.println(app.getWorkSpace().getGridCell(userSelectedGridCell).getDelay());
                 context.setState(new userSelectsFromGridState(app, userSelectedGridCell));
                 context.getState().computeAction(context);
             });
@@ -115,17 +114,14 @@ public class userSelectsFromGridState implements MobiLogicState{
             app.getMainMenu().getTextField().setEditable(true);
             app.getMainMenu().setPropagationDelay(Integer.toString(selectedComp.getDelay()));
             // update gate's prop delay after user hits [ENTER]
-            app.getMainMenu().getTextField().setDoneListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent evt) {
-                    if (!app.getMainMenu().getPropagationDelay().isEmpty() &&
-                            isValidInteger(app.getMainMenu().getPropagationDelay()) &&
-                            Integer.parseInt(app.getMainMenu().getPropagationDelay()) >= 0) {
-                        selectedComp.setDelay(Integer.parseInt(app.getMainMenu().getPropagationDelay()));
-                        app.getWorkSpace().getGridCell(userSelectedGridCell).updateDelay(app);
-                    }
-                    else selectedComp.setDelay(0);
+            app.getMainMenu().getTextField().setDoneListener(evt -> {
+                if (!app.getMainMenu().getPropagationDelay().isEmpty() &&
+                        isValidInteger(app.getMainMenu().getPropagationDelay()) &&
+                        Integer.parseInt(app.getMainMenu().getPropagationDelay()) >= 0) {
+                    selectedComp.setDelay(Integer.parseInt(app.getMainMenu().getPropagationDelay()));
+                    app.getWorkSpace().getGridCell(userSelectedGridCell).updateDelay(app);
                 }
+                else selectedComp.setDelay(0);
             });
         } else {
             app.getMainMenu().getTextField().clear();
