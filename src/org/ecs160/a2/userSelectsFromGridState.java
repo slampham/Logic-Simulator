@@ -6,8 +6,7 @@ import com.codename1.ui.events.ActionEvent;
 import com.codename1.ui.events.ActionListener;
 import com.codename1.ui.util.UITimer;
 
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 public class userSelectsFromGridState implements MobiLogicState{
@@ -30,7 +29,7 @@ public class userSelectsFromGridState implements MobiLogicState{
     @Override
     public void computeAction(MobiLogicContext context){
         controlToggle();
-        propagationDelayFunctionality();
+        userSetsPropagationDelayFunctionality();
         refreshScreen();
         highlightUserSelectedGridCell();
         userSelectsFromGridAgainState(context);
@@ -59,28 +58,59 @@ public class userSelectsFromGridState implements MobiLogicState{
 
             app.getWorkSpace().getGridCell(userSelectedGridCell).getComponent().updateState((previousState ^ 1));
             app.getWorkSpace().getGridCell(userSelectedGridCell).getComponent().calculateOutput(app);
-
-            // FIXME: propagation delay needs correcting.
-            // the entire circuit sleeps for designated time instead of just the gate.
-            for (int key = 0; key < 96; key++) {
-                app.getWorkSpace().getGridCell(key).updateState(app);
-                if (app.getWorkSpace().getGridCell(key).getComponent() != null &&
-                        gateList.contains(app.getWorkSpace().getGridCell(key).getComponent().getName())) {
-                    try {
-                        app.show();
-                        TimeUnit.NANOSECONDS.sleep(app.getWorkSpace().getGridCell(key).getComponent().getDelay());
-                    }
-                    catch(InterruptedException ex) {
-                        ex.printStackTrace();
-                    }
-                }
-            }
         }
     }
+
+    /*private void propagationDelay() {
+        // save gates to delay
+        ArrayList<Integer> gates2Delay = new ArrayList<Integer>();
+        for (int key = 0; key < 96; key++) {
+            if (app.getWorkSpace().getGridCell(key).getComponent() != null &&
+                    gateList.contains(app.getWorkSpace().getGridCell(key).getComponent().getName())) {
+                gates2Delay.add(key);
+            }
+        }
+        // update circuits until gates to delay
+        for (int key = 0; key < 96; key++) {
+            if (gates2Delay.contains(key)) {
+                Timer timer = new Timer();
+                int finalKey = key;
+                timer.schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                        app.getWorkSpace().getGridCell(finalKey).updateState(app);
+                        app.show();
+                    }
+                }, app.getWorkSpace().getGridCell(key).getComponent().getDelay() * 1000);
+                continue;
+            }
+            app.getWorkSpace().getGridCell(key).updateState(app);
+        }
+    }*/
 
     private void refreshScreen(){
         for (int key = 0; key < 96; key++) {
             app.getWorkSpace().getGridCell(key).unhighlightGridCell();
+            if (app.getWorkSpace().getGridCell(key).getComponent() != null &&
+                    gateList.contains(app.getWorkSpace().getGridCell(key).getComponent().getName())) {
+                Timer timer = new Timer();
+                int gateKey = key;
+                timer.schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                        for (int i = gateKey; i < 95; i++) {
+                            if (app.getWorkSpace().getGridCell(i+1).getComponent() != null &&
+                                    gateList.contains(app.getWorkSpace().getGridCell(i+1).getComponent().getName()))
+                                break;
+                            app.getWorkSpace().getGridCell(i).updateState(app);
+                        }
+                        app.show();
+                        System.out.println(gateKey + ": Timer finished: " + new Date());
+                    }
+                }, app.getWorkSpace().getGridCell(key).getComponent().getDelay() * 1000);
+                System.out.println(gateKey + ": Timer started: " + new Date());
+                continue;
+            }
             app.getWorkSpace().getGridCell(key).updateState(app);
         }
         Storage.getInstance().writeObject("workspace", app.getWorkSpace().getWorkSpaceMap());
@@ -101,39 +131,7 @@ public class userSelectsFromGridState implements MobiLogicState{
         });
     }
 
-    //FIXME:
-    // need to refactor gates to superclass in order to cast getStateChanger
-    // need to assign prop delay to selected gate
-//    private void propDelayFunctionality(MobiLogicContext context) {
-//        ArrayList<String> Gates = new ArrayList<String>(
-//                Arrays.asList("AND Gate", "NAND Gate", "NOR Gate", "XNOR Gate",
-//                        "OR Gate", "NOT Gate", "XOR Gate"));
-//
-//        if (app.getMainMenu().propagation_delay.getDoneListener() != null) {
-//            removeActionListener(app.getMainMenu().propagation_delay);
-//        }
-//        // determine if grid cell selected is gate
-//        // extract data with getText()
-//        // clear text with clear() once user clicks somewhere else
-//        app.getMainMenu().propagation_delay.setDoneListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent evt) {
-//                removeActionListeners();
-//
-//                //checking if the grid cell selected is a gate
-//                if (Gates.contains(app.getWorkSpace().getGridCell(userSelectedGridCell).getStateChanger().getName())) {
-//                    String propDelay = app.getMainMenu().propagation_delay.getText();
-//
-//                }
-//                app.getWorkSpace().getGridCell(userSelectedGridCell).removeComponent();
-//                app.show();
-//                context.setState(new InitState(app));
-//                context.getState().computeAction(context);
-//            }
-//        });
-//    }
-
-    private void propagationDelayFunctionality() {
+    private void userSetsPropagationDelayFunctionality() {
         Component selectedComp = app.getWorkSpace().getGridCell(userSelectedGridCell).getComponent();
         if (selectedComp != null && gateList.contains(selectedComp.getName())) {
             app.getMainMenu().getTextField().setEditable(true);
