@@ -62,6 +62,7 @@ public class userSelectsFromGridState implements MobiLogicState{
         }
     }
 
+    // refreshes screen based on propagation delay attached to gates
     private void refreshScreen(){
         for (int key = 0; key < 96; key++) {
             app.getWorkSpace().getGridCell(key).unhighlightGridCell();

@@ -38,7 +38,7 @@ public class CustomizedButton extends Button implements Externalizable {
         this.getAllStyles().setMargin(3, 3, 3,3);
     }
 
-    // updates state of the grid cell based on the stateChanger attached
+    // updates state of the grid cell based on the component attached
     // used to refresh states when circuit is changed
     public void updateState(formApp app) {
         if (component != null) {
@@ -50,6 +50,8 @@ public class CustomizedButton extends Button implements Externalizable {
         }
     }
 
+    // updates grid cell's delay based on position
+    // does not affect component's delay
     public void updateDelay(formApp app) {
         if (component != null) {
             component.calculateDelay(app);

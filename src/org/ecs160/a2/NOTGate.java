@@ -34,7 +34,8 @@ public class NOTGate extends Component {
                         app.getWorkSpace().getGridCell(gridCell - 1).getComponent().getName().equals("Toggle"))) {
             Integer newDelay = delay + app.getWorkSpace().getGridCell(gridCell - 1).getDelay();
             app.getWorkSpace().getGridCell(gridCell).setDelay(newDelay);
-        } else app.getWorkSpace().getGridCell(gridCell).setDelay(delay);
+        }
+        else app.getWorkSpace().getGridCell(gridCell).setDelay(delay);
     }
 
     @Override

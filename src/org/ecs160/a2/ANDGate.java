@@ -34,7 +34,8 @@ public class ANDGate extends Component {
         if (inputs.size() == 2){
             Integer newDelay = delay + Math.max(inputs.get(0), inputs.get(1));
             app.getWorkSpace().getGridCell(gridCell).setDelay(newDelay);
-        } else app.getWorkSpace().getGridCell(gridCell).setDelay(delay);
+        }
+        else app.getWorkSpace().getGridCell(gridCell).setDelay(delay);
     }
 
     @Override
