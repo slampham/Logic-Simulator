@@ -1,12 +1,16 @@
 package org.ecs160.a2;
 
 import com.codename1.io.Storage;
-import com.codename1.io.Util;
 import com.codename1.ui.Button;
-import com.codename1.ui.events.ActionEvent;
 import com.codename1.ui.events.ActionListener;
 
 public class InitState implements MobiLogicState{
+    /**
+     * InitState is the initial state the app begins in.
+     * This state is also the state other states return to.
+     * If viewed in a diagram, this state is the central state
+     * where every other state evolves from.
+     */
     private formApp app;
     public InitState(formApp app) {
         this.app = app;
@@ -18,7 +22,6 @@ public class InitState implements MobiLogicState{
         clearBoardFunctionality();
         userSelectsFromNavBarEvent(context);
         userSelectsFromGridEvent(context);
-        System.out.println("init state");
     }
 
     // attaches an action listener to the "clear" button to wipe components from every grid cell
@@ -34,7 +37,9 @@ public class InitState implements MobiLogicState{
         }
     }
 
-    // attaches button listeners to the toolbar
+    // attaches action listeners to the toolbar
+    // the action listeners attached to this toolbar are persistent (not removed after every state switch)
+    // that is, this function (and the toolbar) can be used from other states due to persistent action listeners
     public void userSelectsFromNavBarEvent(MobiLogicContext context) {
         for (String key: app.getToolBar().getToolBarMap().keySet()) {
             if (!key.equals("Wire") && !key.equals("Toggle") && !key.equals("LED")) // gates
@@ -107,7 +112,7 @@ public class InitState implements MobiLogicState{
     }
 
     // because grid cells have actions listeners that switch functionality depending on state,
-    // remove all action listeners before each state switch
+    // this function is used in every function that leads to a state-switch
     private void removeActionListeners() {
         for (Integer key: app.getWorkSpace().getWorkSpaceMap().keySet()) {
             removeActionListener(app.getWorkSpace().getGridCell(key));

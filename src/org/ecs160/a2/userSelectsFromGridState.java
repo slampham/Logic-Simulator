@@ -4,15 +4,13 @@ import com.codename1.io.Storage;
 import com.codename1.ui.Button;
 import com.codename1.ui.events.ActionEvent;
 import com.codename1.ui.events.ActionListener;
-import com.codename1.ui.util.UITimer;
 
 import java.util.*;
-import java.util.concurrent.TimeUnit;
 
 public class userSelectsFromGridState implements MobiLogicState{
     /**
      * When the user selects a grid cell (to delete a component, to turn on/off a toggle, etc.),
-     * we create a new state of this type.
+     * we create a new state of this type. Aside from InitState, this state sees the most action.
      */
 
     private formApp app;
@@ -34,7 +32,6 @@ public class userSelectsFromGridState implements MobiLogicState{
         highlightUserSelectedGridCell();
         userSelectsFromGridAgainState(context);
         trashCanFunctionality(context);
-        System.out.println("user selects from grid state");
     }
 
     // attaches action listeners to all grid cells
@@ -64,9 +61,12 @@ public class userSelectsFromGridState implements MobiLogicState{
 
     // refreshes screen based on propagation delay attached to gates
     private void refreshScreen(){
+        // loops through all grid cells, updating each grid cell's delay value and state value
+        // any gates found have their delay updated, but are skipped over before state is updated
         for (int key = 0; key < 96; key++) {
             app.getWorkSpace().getGridCell(key).unhighlightGridCell();
             app.getWorkSpace().getGridCell(key).updateDelay(app);
+            // if a gate is found, attach a timer that updates state based on the grid cell's delay value
             if (app.getWorkSpace().getGridCell(key).getComponent() != null &&
                     gateList.contains(app.getWorkSpace().getGridCell(key).getComponent().getName())) {
                 Timer timer = new Timer();
@@ -74,6 +74,8 @@ public class userSelectsFromGridState implements MobiLogicState{
                 timer.schedule(new TimerTask() {
                     @Override
                     public void run() {
+                        // updates state from the gate at `gateKey` until the next gate
+                        // this prevents any overlapping state updates
                         app.getWorkSpace().getGridCell(gateKey).updateState(app);
                         for (int i = gateKey + 1; i < 96; i++) {
                             if (app.getWorkSpace().getGridCell(i).getComponent() != null &&
@@ -106,6 +108,7 @@ public class userSelectsFromGridState implements MobiLogicState{
         });
     }
 
+    // allows user to set propagation delay based on menu's text-field
     private void userSetsPropagationDelayFunctionality() {
         Component selectedComp = app.getWorkSpace().getGridCell(userSelectedGridCell).getComponent();
         if (selectedComp != null && gateList.contains(selectedComp.getName())) {
@@ -130,11 +133,14 @@ public class userSelectsFromGridState implements MobiLogicState{
         }
     }
 
+    // embolden margins of user selected grid cell as a visual cue for the user
     private void highlightUserSelectedGridCell() {
         app.getWorkSpace().getGridCell(userSelectedGridCell).highlightGridCell();
         app.show();
     }
 
+    // because grid cells have actions listeners that switch functionality depending on state,
+    // this function is used in every function that leads to a state-switch
     private void removeActionListeners() {
         for (Integer key: app.getWorkSpace().getWorkSpaceMap().keySet()) {
             removeActionListener(app.getWorkSpace().getGridCell(key));
@@ -142,6 +148,7 @@ public class userSelectsFromGridState implements MobiLogicState{
         removeActionListener(app.getMainMenu().getButton("TRASH"));
     }
 
+    // removes every single action listener attached to a button
     private void removeActionListener(Button button) {
         if (button != null && !button.getListeners().isEmpty()) {
             for (int i = 0; i < button.getListeners().toArray().length; i++) {
@@ -150,6 +157,7 @@ public class userSelectsFromGridState implements MobiLogicState{
         }
     }
 
+    // used in `userSetsPropagationDelayFunctionality` to check for valid user input into menu text-field
     private Boolean isValidInteger (String s) {
         try {
             int temp = Integer.parseInt(s);

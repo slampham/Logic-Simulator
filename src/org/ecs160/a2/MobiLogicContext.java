@@ -1,9 +1,11 @@
 package org.ecs160.a2;
 
-import com.codename1.ui.events.ActionEvent;
-import com.codename1.ui.events.ActionListener;
-
 public class MobiLogicContext {
+    /**
+     * MobiLogicContext is the context class that controls state transitions.
+     * An object of this class is passed down through all state transitions to keep track of
+     * state as well.
+     */
     private MobiLogicState state;
 
     public MobiLogicContext() { }

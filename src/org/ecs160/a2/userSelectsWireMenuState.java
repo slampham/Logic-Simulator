@@ -42,6 +42,7 @@ public class userSelectsWireMenuState implements MobiLogicState {
     }
 
     // attaches action listeners to wire-menu toolbar
+    // like the main tool bar, these action listeners are also persistent
     private void userSelectsWireEvent(MobiLogicContext context) {
         for (String key: app.getToolBar().getToolBarMap().keySet()) {
             if (!key.equals("Back"))
@@ -75,6 +76,7 @@ public class userSelectsWireMenuState implements MobiLogicState {
         }
     }
 
+    // this function updates state by iterating through each individual grid cell
     private void refreshScreen() {
         app.getMainMenu().getTextField().clear();
         for (int key = 0; key < 96; key++) {
@@ -85,12 +87,15 @@ public class userSelectsWireMenuState implements MobiLogicState {
         app.show();
     }
 
+    // because grid cells have actions listeners that switch functionality depending on state,
+    // this function is used in every function that leads to a state-switch
     private void removeActionListeners() {
         for (Integer key: app.getWorkSpace().getWorkSpaceMap().keySet()) {
             removeActionListener(app.getWorkSpace().getGridCell(key));
         }
     }
 
+    // removes every single action listener attached to a button
     private void removeActionListener(Button button) {
         if (button != null && !button.getListeners().isEmpty()) {
             for (int i = 0; i < button.getListeners().toArray().length; i++) {
