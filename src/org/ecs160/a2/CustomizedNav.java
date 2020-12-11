@@ -14,6 +14,9 @@ import java.util.Arrays;
 import static com.codename1.ui.CN.*;
 
 public class CustomizedNav extends Button {
+    /* the display and customization of the bottom bar for
+     * components the user can interact with */
+
     private String buttonName;
 
     public CustomizedNav(String txt) {
@@ -27,8 +30,6 @@ public class CustomizedNav extends Button {
                 strokeOpacity(120).
                 stroke(borderStroke));
 
-        // the display and customization of the bottom bar for
-        // components the user can interact with
         this.getAllStyles().setBgColor(0x000000);
         this.getAllStyles().setBgTransparency(255);
         this.getAllStyles().setPadding(2,2,2,2);

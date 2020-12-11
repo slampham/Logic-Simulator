@@ -6,6 +6,8 @@ import com.codename1.ui.layouts.GridLayout;
 import com.codename1.ui.util.Resources;
 
 public class toolBar extends Container {
+    /* layout for the component bar the user interacts with */
+
     private Resources theme;
 
     private String[] toolBarButtonNames =
@@ -22,10 +24,11 @@ public class toolBar extends Container {
         initToolBarButtons();
     }
 
-    // separate component bars to switch out based off what button is pressed
+    /* separate component bars to switch out based off what button is pressed */
 
-    // layout for the tool bar on the bottom accessed from the "back" button
     public void initToolBarButtons() {
+        /* layout for the tool bar on the bottom accessed from the "back" button */
+
         refreshForm();
         buttons = new Hashtable<>();
         this.setLayout(new GridLayout(1, 10));
@@ -39,8 +42,10 @@ public class toolBar extends Container {
         this.getAllStyles().setPadding(100,100,0,0);
     }
 
-    // layout for the wire bar (accessed from "wire" button
+
     public void initWireBarButtons() {
+        /* layout for the wire bar (accessed from "wire" button */
+
         refreshForm();
         buttons = new Hashtable<String, CustomizedNav>();
         this.setLayout(new GridLayout(1, 4));
@@ -55,8 +60,9 @@ public class toolBar extends Container {
     public Hashtable<String, CustomizedNav> getToolBarMap() { return buttons; }
     public CustomizedNav getButton(String s) { return buttons.get(s); }
 
-    // used to update the bottom bar form/ tool bar
     private void refreshForm() {
+        /* used to update the bottom bar form/ tool bar */
+
         if (buttons != null) {
             for (String key : buttons.keySet()) {
                 this.removeComponent(buttons.get(key));

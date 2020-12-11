@@ -4,11 +4,11 @@ import com.codename1.io.Storage;
 import com.codename1.io.Util;
 import com.codename1.ui.Container;
 import com.codename1.ui.layouts.GridLayout;
-import com.codename1.ui.util.Resources;
 
 import java.util.Hashtable;
 
 public class workSpace extends Container {
+    /* layout for the area the user will place the circuits */
 
             private Integer[] buttonNames;
             private Hashtable<Integer, CustomizedButton> buttons = new Hashtable<>();
@@ -28,11 +28,12 @@ public class workSpace extends Container {
             public workSpace() {
                 super();
                 this.setLayout(new GridLayout(12, 8));
-                this.getAllStyles().setBgColor(0x6890b3); // light blue bkgrnd for graph paper illusion
+                this.getAllStyles().setBgColor(0x6890b3); // light blue background for graph paper illusion
                 this.getAllStyles().setBgTransparency(255);
 
                 Hashtable<Integer, CustomizedButton> workspaceLoad = (Hashtable<Integer, CustomizedButton>) Storage.getInstance().readObject("workspace");
 
+                // giving each "white square" equal spacing (using numbers as a placeholder)
                 buttonNames = new Integer[96];
                 for (int i = 0; i < 96; i++) {buttonNames[i] = i;}
 

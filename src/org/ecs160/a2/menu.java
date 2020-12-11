@@ -1,16 +1,15 @@
 package org.ecs160.a2;
 
-import com.codename1.ui.Button;
 import com.codename1.ui.Container;
 import com.codename1.ui.TextArea;
 import com.codename1.ui.TextField;
-import com.codename1.ui.layouts.BoxLayout;
 import com.codename1.ui.layouts.GridLayout;
-import com.codename1.ui.plaf.Style;
 
 import java.util.Hashtable;
 
 public class menu extends Container {
+    /* menu for the user to delete components and type the delay */
+
     private String[] topRow = { "CLEAR", "TRASH"};
 
     // Numeric is for number input
@@ -35,7 +34,7 @@ public class menu extends Container {
         buttons.put(topRow[1], bDel);
         top_row.add(bDel);
 
-        // horizontal layout for the "propogation delay" and "gates appear here" components
+        // horizontal layout for the "propagation delay" and "gates appear here" components
         Container bot_row = new Container(new GridLayout(1, 2));
         bot_row.add(propagationDelay);
         CustomizedMenu bSpc = new CustomizedMenu(botRow);
@@ -46,7 +45,7 @@ public class menu extends Container {
         this.add(bot_row);
     }
 
-    // functions for interactions with the menu buttons as well as changing its display
+    /* functions for interactions with the menu buttons as well as changing its display */
     public void updateGateSelected(String s) { buttons.get("Selected Tool").setText(s); }
     public CustomizedMenu getButton(String s) { return buttons.get(s); }
     public String getPropagationDelay() { return propagationDelay.getText(); }
