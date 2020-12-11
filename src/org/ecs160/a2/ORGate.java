@@ -25,7 +25,16 @@ public class ORGate extends Component {
             output = inputs.get(0) | inputs.get(1);
         }
         else output = -1;
-      //  propDelay = Collections.max(delays);
+    }
+
+    @Override
+    public void calculateDelay(formApp app) {
+        List<Integer> inputs = getDelayInputs(app);
+        if (inputs.size() == 2){
+            Integer newDelay = delay + Math.max(inputs.get(0), inputs.get(1));
+            app.getWorkSpace().getGridCell(gridCell).setDelay(newDelay);
+        }
+        else app.getWorkSpace().getGridCell(gridCell).setDelay(delay);
     }
 
     @Override

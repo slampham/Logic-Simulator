@@ -76,6 +76,7 @@ public class userSelectsWireMenuState implements MobiLogicState {
     }
 
     private void refreshScreen() {
+        app.getMainMenu().getTextField().clear();
         for (int key = 0; key < 96; key++) {
             app.getWorkSpace().getGridCell(key).unhighlightGridCell();
             app.getWorkSpace().getGridCell(key).updateState(app);

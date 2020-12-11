@@ -4,6 +4,7 @@ import com.codename1.ui.util.Resources;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class ANDGate extends Component {
     public ANDGate () {}
@@ -16,19 +17,25 @@ public class ANDGate extends Component {
         image = r.getImage("and.png");
     }
 
+
+
     @Override
     public void calculateOutput(formApp app) {
         List<Integer> inputs = getInputs(app);
-        List<Integer> delays = new ArrayList<>();
-
         if (inputs.size() == 2){
             output = inputs.get(0) & inputs.get(1);
         }
-        else {
-            output = -1;
-        }
+        else output = -1;
+    }
 
-       // propDelay = Collections.max(delays);
+    @Override
+    public void calculateDelay(formApp app) {
+        List<Integer> inputs = getDelayInputs(app);
+        if (inputs.size() == 2){
+            Integer newDelay = delay + Math.max(inputs.get(0), inputs.get(1));
+            app.getWorkSpace().getGridCell(gridCell).setDelay(newDelay);
+        }
+        else app.getWorkSpace().getGridCell(gridCell).setDelay(delay);
     }
 
     @Override

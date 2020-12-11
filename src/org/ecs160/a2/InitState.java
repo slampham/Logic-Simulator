@@ -97,6 +97,7 @@ public class InitState implements MobiLogicState{
 
     // this function updates state by iterating through each individual grid cell
     private void refreshScreen() {
+        app.getMainMenu().getTextField().clear();
         for (int key = 0; key < 96; key++) {
             app.getWorkSpace().getGridCell(key).unhighlightGridCell();
             app.getWorkSpace().getGridCell(key).updateState(app);
