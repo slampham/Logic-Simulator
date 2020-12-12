@@ -61,7 +61,7 @@ public abstract class Component implements Externalizable {
         if (app.getWorkSpace().getGridCell(gridCell - 8) != null &&
                 app.getWorkSpace().getGridCell(gridCell - 8).isFilled() // top and top isn't a horizontal wire
                 && !app.getWorkSpace().getGridCell(gridCell - 8).getComponent().getName().equals("Horizontal")) {
-            delays.add(app.getWorkSpace().getGridCell(gridCell - 1).getDelay());
+            delays.add(app.getWorkSpace().getGridCell(gridCell - 8).getDelay());
         }
         return delays;
     }
