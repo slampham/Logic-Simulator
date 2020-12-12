@@ -22,7 +22,6 @@ public class userSelectsPeripheralsFromNavBarState implements MobiLogicState {
     public void computeAction(MobiLogicContext context) {
         refreshScreen();
         attachActionListenersToGrid(context);
-        System.out.println("user selects peripheral from nav-bar state");
     }
 
     // attaches an action listener to each grid cell, remove on state-change
@@ -39,7 +38,7 @@ public class userSelectsPeripheralsFromNavBarState implements MobiLogicState {
         }
     }
 
-    // this function updates state by iterating through each individual grid cell
+    /* This function updates state by iterating through each individual grid cell. */
     private void refreshScreen() {
         app.getMainMenu().getTextField().clear();
         for (int key = 0; key < 96; key++) {
@@ -50,15 +49,15 @@ public class userSelectsPeripheralsFromNavBarState implements MobiLogicState {
         app.show();
     }
 
-    // because grid cells have actions listeners that switch functionality depending on state,
-    // this function is used in every function that leads to a state-switch
+    /* Because grid cells have actions listeners that switch functionality depending on state,
+       this function is used in every function that leads to a state-switch. */
     private void removeActionListeners() {
         for (Integer key: app.getWorkSpace().getWorkSpaceMap().keySet()) {
             removeActionListener(app.getWorkSpace().getGridCell(key));
         }
     }
 
-    // removes every single action listener attached to a button
+    /* Removes every single action listener attached to a button. */
     private void removeActionListener(Button button) {
         if (button != null && !button.getListeners().isEmpty()) {
             for (int i = 0; i < button.getListeners().toArray().length; i++) {

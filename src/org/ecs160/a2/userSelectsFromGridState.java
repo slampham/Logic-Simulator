@@ -15,7 +15,7 @@ public class userSelectsFromGridState implements MobiLogicState{
 
     private formApp app;
     private Integer userSelectedGridCell;
-    private ArrayList<String> gateList = new ArrayList<String>(
+    private ArrayList<String> gateList = new ArrayList<>(
             Arrays.asList("AND Gate", "NAND Gate", "NOR Gate", "XNOR Gate",
                     "OR Gate", "NOT Gate", "XOR Gate"));
 
@@ -34,21 +34,20 @@ public class userSelectsFromGridState implements MobiLogicState{
         trashCanFunctionality(context);
     }
 
-    // attaches action listeners to all grid cells
-    // takes care of the case that the user wants to select another grid cell from the workspace
+    /* Attaches action listeners to all grid cells.
+       Takes care of the case that the user wants to select another grid cell from the workspace. */
     private void userSelectsFromGridAgainState(MobiLogicContext context) {
         for (Integer key: app.getWorkSpace().getWorkSpaceMap().keySet()) {
             app.getWorkSpace().getGridCell(key).addActionListener(evt -> {
                 removeActionListeners();
                 Integer userSelectedGridCell = app.getWorkSpace().getGridCell(key).getCell();
-                System.out.println(app.getWorkSpace().getGridCell(userSelectedGridCell).getDelay());
                 context.setState(new userSelectsFromGridState(app, userSelectedGridCell));
                 context.getState().computeAction(context);
             });
         }
     }
 
-    // implements toggle functionality (turning it on/off)
+    /* Implements toggle functionality (turning it on/off.) */
     private void controlToggle() {
         if (app.getWorkSpace().getGridCell(userSelectedGridCell).isFilled() &&
                 app.getWorkSpace().getGridCell(userSelectedGridCell).getComponent().getName().equals("Toggle")) {
@@ -59,7 +58,7 @@ public class userSelectsFromGridState implements MobiLogicState{
         }
     }
 
-    // refreshes screen based on propagation delay attached to gates
+    /* Refreshes screen based on propagation delay attached to gates. */
     private void refreshScreen(){
         // loops through all grid cells, updating each grid cell's delay value and state value
         // any gates found have their delay updated, but are skipped over before state is updated
@@ -94,7 +93,7 @@ public class userSelectsFromGridState implements MobiLogicState{
         app.show();
     }
 
-    // attaches an action listener to the trash can, remove on state-change
+    /* Attaches an action listener to the trash can, remove on state-change. */
     private void trashCanFunctionality(MobiLogicContext context) {
         if (app.getMainMenu().getButton("TRASH").getListeners() != null) {
             removeActionListener(app.getMainMenu().getButton("TRASH"));
@@ -108,24 +107,21 @@ public class userSelectsFromGridState implements MobiLogicState{
         });
     }
 
-    // allows user to set propagation delay based on menu's text-field
+    /* Allows user to set propagation delay based on menu's text-field. */
     private void userSetsPropagationDelayFunctionality() {
         Component selectedComp = app.getWorkSpace().getGridCell(userSelectedGridCell).getComponent();
         if (selectedComp != null && gateList.contains(selectedComp.getName())) {
             app.getMainMenu().getTextField().setEditable(true);
             app.getMainMenu().setPropagationDelay(Integer.toString(selectedComp.getDelay()));
             // update gate's prop delay after user hits [ENTER]
-            app.getMainMenu().getTextField().setDoneListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent evt) {
-                    if (!app.getMainMenu().getPropagationDelay().isEmpty() &&
-                            isValidInteger(app.getMainMenu().getPropagationDelay()) &&
-                            Integer.parseInt(app.getMainMenu().getPropagationDelay()) >= 0) {
-                        selectedComp.setDelay(Integer.parseInt(app.getMainMenu().getPropagationDelay()));
-                        app.getWorkSpace().getGridCell(userSelectedGridCell).updateDelay(app);
-                    }
-                    else selectedComp.setDelay(0);
+            app.getMainMenu().getTextField().setDoneListener(evt -> {
+                if (!app.getMainMenu().getPropagationDelay().isEmpty() &&
+                        isValidInteger(app.getMainMenu().getPropagationDelay()) &&
+                        Integer.parseInt(app.getMainMenu().getPropagationDelay()) >= 0) {
+                    selectedComp.setDelay(Integer.parseInt(app.getMainMenu().getPropagationDelay()));
+                    app.getWorkSpace().getGridCell(userSelectedGridCell).updateDelay(app);
                 }
+                else selectedComp.setDelay(0);
             });
         } else {
             app.getMainMenu().getTextField().clear();
@@ -133,14 +129,14 @@ public class userSelectsFromGridState implements MobiLogicState{
         }
     }
 
-    // embolden margins of user selected grid cell as a visual cue for the user
+    /* Embolden margins of user selected grid cell as a visual cue for the user. */
     private void highlightUserSelectedGridCell() {
         app.getWorkSpace().getGridCell(userSelectedGridCell).highlightGridCell();
         app.show();
     }
 
-    // because grid cells have actions listeners that switch functionality depending on state,
-    // this function is used in every function that leads to a state-switch
+    /* Because grid cells have actions listeners that switch functionality depending on state,
+       this function is used in every function that leads to a state-switch. */
     private void removeActionListeners() {
         for (Integer key: app.getWorkSpace().getWorkSpaceMap().keySet()) {
             removeActionListener(app.getWorkSpace().getGridCell(key));
@@ -148,7 +144,7 @@ public class userSelectsFromGridState implements MobiLogicState{
         removeActionListener(app.getMainMenu().getButton("TRASH"));
     }
 
-    // removes every single action listener attached to a button
+    /* Removes every single action listener attached to a button. */
     private void removeActionListener(Button button) {
         if (button != null && !button.getListeners().isEmpty()) {
             for (int i = 0; i < button.getListeners().toArray().length; i++) {
@@ -157,7 +153,7 @@ public class userSelectsFromGridState implements MobiLogicState{
         }
     }
 
-    // used in `userSetsPropagationDelayFunctionality` to check for valid user input into menu text-field
+    /* Used in `userSetsPropagationDelayFunctionality` to check for valid user input into menu text-field. */
     private Boolean isValidInteger (String s) {
         try {
             int temp = Integer.parseInt(s);

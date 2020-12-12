@@ -2,9 +2,7 @@ package org.ecs160.a2;
 import com.codename1.ui.util.Resources;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 public class ANDGate extends Component {
     public ANDGate () {}
@@ -16,8 +14,6 @@ public class ANDGate extends Component {
         this.gridCell = gridCell;
         image = r.getImage("and.png");
     }
-
-
 
     @Override
     public void calculateOutput(formApp app) {
