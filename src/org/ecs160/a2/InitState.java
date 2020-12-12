@@ -5,12 +5,12 @@ import com.codename1.ui.Button;
 import com.codename1.ui.events.ActionListener;
 
 public class InitState implements MobiLogicState{
-    /**
-     * InitState is the initial state the app begins in.
-     * This state is also the state other states return to.
-     * If viewed in a diagram, this state is the central state
-     * where every other state evolves from.
-     */
+      /**
+       * InitState is the initial state the app begins in.
+       * This state is also the state other states return to.
+       * If viewed in a diagram, this state is the central state
+       * where every other state evolves from.
+       */
     private formApp app;
     public InitState(formApp app) {
         this.app = app;
@@ -18,6 +18,7 @@ public class InitState implements MobiLogicState{
 
     @Override
     public void computeAction(MobiLogicContext context) {
+
         refreshScreen();
         clearBoardFunctionality();
         userSelectsFromNavBarEvent(context);

@@ -17,6 +17,8 @@ public class CustomizedButton extends Button implements Externalizable {
     private Integer delay = 0;
 
     public CustomizedButton(Integer txt) {
+        /* class created for the graph paper display */
+
         super(Integer.toString(txt));
         try { r = Resources.open("/theme.res"); }
         catch (IOException e) { e.printStackTrace(); }
@@ -26,6 +28,7 @@ public class CustomizedButton extends Button implements Externalizable {
         this.getAllStyles().setBgTransparency(255);
         this.getAllStyles().setMargin(3, 3, 3,3);
 
+        // white squares and default button spacing
         cellName = txt;
     }
 
@@ -38,9 +41,10 @@ public class CustomizedButton extends Button implements Externalizable {
         this.getAllStyles().setMargin(3, 3, 3,3);
     }
 
-    // updates state of the grid cell based on the component attached
-    // used to refresh states when circuit is changed
     public void updateState(formApp app) {
+        /* updates state of the grid cell based on the component attached
+         * used to refresh states when circuit is changed */
+
         if (component != null) {
             component.calculateOutput(app);
             output = component.getOutput();
@@ -50,25 +54,28 @@ public class CustomizedButton extends Button implements Externalizable {
         }
     }
 
-    // updates grid cell's delay based on position
-    // does not affect component's delay
     public void updateDelay(formApp app) {
+        /* updates grid cell's delay based on position
+         * does not affect component's delay */
+
         if (component != null) {
             component.calculateDelay(app);
         }
     }
 
-    // used to invoke a visual cue when the user selects a particular grid cell
     public void highlightGridCell() {
+        /* used to invoke a visual cue when the user selects a particular grid cell */
+
         this.getAllStyles().setMargin(10, 10, 10,10);
     }
 
-    // used to refresh the margins of user-highlighted grid cells
+
     public void unhighlightGridCell() {
+        /* used to refresh the margins of user-highlighted grid cells */
+
         this.getAllStyles().setMargin(3, 3, 3,3);
     }
 
-    //public Boolean getOutput() { return output; }
     public Integer getOutput() { return output; }
 
     public void setDelay(Integer delay) { this.delay = delay; }
@@ -97,6 +104,8 @@ public class CustomizedButton extends Button implements Externalizable {
     }
 
     private Image chooseComponent (formApp app, String s) {
+        /* assigning image to each component on the screen */
+
         Image component;
         switch(s) {
             case "AND Gate":
