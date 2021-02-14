@@ -156,7 +156,7 @@ public class userSelectsFromGridState implements MobiLogicState{
     /* Used in `userSetsPropagationDelayFunctionality` to check for valid user input into menu text-field. */
     private Boolean isValidInteger (String s) {
         try {
-            int temp = Integer.parseInt(s);
+            Integer.parseInt(s);
             return true;
         }
         catch(NumberFormatException er) { return false; }
