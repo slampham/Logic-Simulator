@@ -1,4 +1,7 @@
-# A2Prj: MobiLogic
-Authored by: Eric Zhou, Shreya Gupta, Kody Nguyen, Spencer Pham, Tejvir Sohi, Chuihui "Chewie" Qiu
+# Mobilogic
+See `Documentation.pdf` and `Video_Demonstration.mp4` for a more in depth analysis of our product.
 
-<embed src="documentation.pdf" width="500" height="375" type="application/pdf" />
+
+![alt text](Flyer.jpg "MobiLogic")
+
+Authored by: Eric Zhou, Shreya Gupta, Kody Nguyen, Spencer Pham, Tejvir Sohi, Chuihui "Chewie" Qiu
