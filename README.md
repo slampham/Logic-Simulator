@@ -1,6 +1,5 @@
 # Mobilogic
-See `Documentation.pdf` and `Video_Demonstration.mp4` for a more in depth analysis of our product.
-
+See [Documentation.pdf](Documentation.pdf) and ​[Video_Demonstration.mp4](Video_Demonstration.mp4) for a more in depth analysis of our product.
 
 ![alt text](Flyer.jpg "MobiLogic")
 
